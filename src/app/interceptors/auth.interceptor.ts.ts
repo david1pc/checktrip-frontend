@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, finalize, throwError } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable()
@@ -26,7 +26,17 @@ export class AuthInterceptor implements HttpInterceptor {
     });
   
     // Envía la solicitud con el encabezado Authorization agregado
-    return next.handle(authReq);
+    //return next.handle(authReq);
+    return next.handle(authReq).pipe(
+      finalize(() => {
+      }),
+      catchError(err => {
+        if ([401].includes(err.status)) {
+          this.authenticationService.logout();
+        }
+        return throwError(err);
+      })
+    );
   }
   
 }

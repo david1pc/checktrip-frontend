@@ -11,17 +11,23 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor.ts';
 import { AuthenticationService } from './services/authentication.service';
 import { AirportCitySearchService } from './services/airport-city-search.service';
+import { LoginComponent } from './components/login/login.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FiltroGeneralComponent,
-    PaginaNoEncontradaComponent
+    PaginaNoEncontradaComponent,
+    LoginComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule 
   ],
   providers: [
     AuthenticationService,

@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+
+.bordeGeneral{
+    border: 1px solid gray; 
+    padding: 20px;
+}
+
+.mensajeError{
+    color:red;
+}

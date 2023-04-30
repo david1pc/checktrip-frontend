@@ -10,19 +10,4 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent {
 
-  constructor(private authenticationService: AuthenticationService){
-  }
-
-  login(){
-    this.authenticationService.login().subscribe({
-      next: (response) => {
-        this.authenticationService.guardarToken(response);
-        console.log("se guardo el token en sesion correctamente");
-      },
-    });
-  }
-
-  cerrarSesion(){
-    this.authenticationService.logout();
-  }
 }
