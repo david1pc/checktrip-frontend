@@ -14,6 +14,10 @@ import { AirportCitySearchService } from './services/airport-city-search.service
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalElegirCiudadesComponent } from './components/modales/modal-elegir-ciudades/modal-elegir-ciudades.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BuscarVuelosComponent } from './components/buscar-vuelos/buscar-vuelos.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,13 +25,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     FiltroGeneralComponent,
     PaginaNoEncontradaComponent,
     LoginComponent,
-    NavbarComponent
+    NavbarComponent,
+    ModalElegirCiudadesComponent,
+    BuscarVuelosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    NgbModule 
   ],
   providers: [
     AuthenticationService,

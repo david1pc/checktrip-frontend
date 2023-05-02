@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{data.nombre}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+    <div class="container">
+        <div class="row bordeGeneral m-1 mt-4" *ngIf="ciudades.length > 0">
+      
+            <div class="container text-left py-3">
+              <strong>Ciudades destino sin escala</strong>
+            </div>
+    
+                <span class="mensajeError" *ngIf="formulario.invalid">
+                    Debe seleccionar una ciudad destino
+                </span>
+                <button class="btn btn-success mb-2" (click)="buscarVuelos()" [disabled]="formulario.invalid">Buscar Vuelos</button>
+                <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Ciudad Destino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ciudades; index as i">
+                    <th scope="row">{{i + 1}}</th>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.codigo}}</td>
+                    <td> <input class="form-check-input" type="radio" value="" name="codigoDestino" (change)="changeDestino(item.nombre, item.codigo)"></td>
+                    </tr>
+                </tbody>
+                </table>
+
+
+                <span class="mensajeError" *ngIf="formulario.invalid">
+                    Debe seleccionar una ciudad destino
+                </span>
+                <button class="btn btn-success" (click)="buscarVuelos()" [disabled]="formulario.invalid">Buscar Vuelos</button>
+      
+          </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Cerrar</button>
+  </div>

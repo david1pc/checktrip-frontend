@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FiltroGeneralComponent } from './components/filtro-general/filtro-general.component';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { LoginComponent } from './components/login/login.component';
+import { BuscarVuelosComponent } from './components/buscar-vuelos/buscar-vuelos.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'filtros',
     component: FiltroGeneralComponent
+  },
+  {
+    path: 'buscarVuelos/:param1/:param2/:param3/:param4',
+    component: BuscarVuelosComponent
   },
   { path: '**', component: PaginaNoEncontradaComponent }
 ];

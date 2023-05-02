@@ -20,8 +20,18 @@
           </div>
     </form>
 
+    <div *ngIf="aeropuertos.length === 0 && yaBusco">
+      <span class="mensajeError" >
+        No hay datos
+      </span>
+    </div>
+
     <div class="row bordeGeneral m-1 mt-4" *ngIf="aeropuertos.length > 0">
       
+      <div class="container text-left py-3">
+        <h1>Lista aeropuertos</h1>
+      </div>
+  
       <table class="table table-hover">
         <thead>
           <tr>
@@ -30,6 +40,7 @@
             <th scope="col">Codigo</th>
             <th scope="col">Ciudad</th>
             <th scope="col">Pais</th>
+            <th scope="col">Ciudades destino</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +50,11 @@
             <td>{{item.codigo}}</td>
             <td>{{item.ciudad}}</td>
             <td>{{item.pais}}</td>
+            <td><button  class="btn btn-success" (click)="verCiudadesDestinos(item.codigo, item.nombre)">Ver</button></td>
           </tr>
         </tbody>
       </table>
-      
-      
+
     </div>
     
 </div>
