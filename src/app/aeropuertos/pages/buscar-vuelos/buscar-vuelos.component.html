@@ -1,0 +1,107 @@
+<app-navbar></app-navbar>
+<div class="container text-center py-3">
+  <h1>{{ nombreOrigen }} hasta {{ nombreDestino }}</h1>
+  <p class="lead">
+    lista de ofertas de vuelos entre dos ciudades con precios, detalles de
+    tarifas, nombres de aerolíneas, franquicias de equipaje y terminales de
+    salida.
+  </p>
+</div>
+
+<div class="container">
+  <form [formGroup]="formulario" novalidate class="bordeGeneral">
+    <div class="row">
+      <div class="col-4">
+        <label for="txtFechaSalida"
+          >Fecha de salida <span class="mensajeError">*</span></label
+        >
+        <input
+          id="txtFechaSalida"
+          type="text"
+          class="form-control"
+          value=""
+          formControlName="departureDate"
+        />
+        <span
+          class="mensajeError"
+          *ngIf="formulario.controls['departureDate'].hasError('required')"
+        >
+          Este campo es obligatorio.
+        </span>
+      </div>
+
+      <div class="col-4">
+        <label for="txtAdultos"
+          >Cantidad adultos <span class="mensajeError">*</span></label
+        >
+        <input
+          id="txtAdultos"
+          type="text"
+          class="form-control"
+          value=""
+          formControlName="adults"
+        />
+        <span
+          class="mensajeError"
+          *ngIf="formulario.controls['adults'].hasError('required')"
+        >
+          Este campo es obligatorio.
+        </span>
+      </div>
+
+      <div class="col-4">
+        <label id="txtClase" for="txtClase">Clase de viaje</label>
+        <select class="form-control" formControlName="travelClass">
+          <option value="">Selecciona una opción</option>
+          <option value="ECONOMY">Economia</option>
+          <option value="PREMIUM_ECONOMY">Economia Premium</option>
+          <option value="BUSINESS">Negocio</option>
+          <option value="FIRST">Primero</option>
+        </select>
+      </div>
+
+      <div class="col-3 mt-4">
+        <button
+          class="btn btn-primary"
+          (click)="consultar()"
+          [disabled]="formulario.invalid"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="vuelos.length === 0 && yaBusco">
+    <span class="mensajeError"> No hay datos </span>
+  </div>
+
+  <div class="row bordeGeneral m-1 mt-4" *ngIf="vuelos.length > 0">
+    <div class="container text-left py-3">
+      <h1>Lista vuelos</h1>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ultima fecha Emision Boletos</th>
+          <th scope="col">Numero Asientos Reservables</th>
+          <th scope="col">Divisa</th>
+          <th scope="col">Total</th>
+          <th scope="col">Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of vuelos; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.ultimaFechaEmisionBoletos }}</td>
+          <td>{{ item.numeroAsientosReservables }}</td>
+          <td>{{ item.divisa }}</td>
+          <td>{{ item.total }}</td>
+          <td><button class="btn btn-success">Ver</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

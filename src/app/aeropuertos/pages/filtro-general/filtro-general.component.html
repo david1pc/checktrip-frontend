@@ -1,0 +1,78 @@
+<app-navbar></app-navbar>
+<div class="container text-center py-3">
+  <h1>Aeropuertos</h1>
+  <p class="lead">
+    Ingrese palabra clave que debe representar el comienzo de una palabra en el
+    nombre o código de un aeropuerto.
+  </p>
+</div>
+
+<div class="container">
+  <form [formGroup]="formulario" novalidate class="bordeGeneral">
+    <div class="row">
+      <div class="col-11">
+        <input
+          type="text"
+          class="form-control"
+          value=""
+          formControlName="keyword"
+        />
+        <span
+          class="mensajeError"
+          *ngIf="formulario.controls['keyword'].hasError('required')"
+        >
+          Este campo es obligatorio.
+        </span>
+      </div>
+      <div class="col-1">
+        <button
+          class="btn btn-primary"
+          (click)="consultar()"
+          [disabled]="formulario.invalid"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="aeropuertos.length === 0 && yaBusco">
+    <span class="mensajeError"> No hay datos </span>
+  </div>
+
+  <div class="row bordeGeneral m-1 mt-4" *ngIf="aeropuertos.length > 0">
+    <div class="container text-left py-3">
+      <h1>Lista aeropuertos</h1>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Codigo</th>
+          <th scope="col">Ciudad</th>
+          <th scope="col">Pais</th>
+          <th scope="col">Ciudades destino</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of aeropuertos; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.codigo }}</td>
+          <td>{{ item.ciudad }}</td>
+          <td>{{ item.pais }}</td>
+          <td>
+            <button
+              class="btn btn-success"
+              (click)="verCiudadesDestinos(item.codigo, item.nombre)"
+            >
+              Ver
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,36 +1,34 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { FiltroGeneralComponent } from './components/filtro-general/filtro-general.component';
-import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
-import { LoginComponent } from './components/login/login.component';
-import { BuscarVuelosComponent } from './components/buscar-vuelos/buscar-vuelos.component';
+import { HomeComponent } from './shared/home/home.component';
+import { PaginaNoEncontradaComponent } from './shared/pagina-no-encontrada/pagina-no-encontrada.component';
 
 const routes: Routes = [
   {
-    path: '', redirectTo:  'login', pathMatch: 'full'
+    path: '',
+    component: HomeComponent,
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'home',
-    component: HomeComponent
+    path: 'vuelos',
+    loadChildren: () =>
+      import('./vuelos/vuelos.module').then((m) => m.VuelosModule),
   },
   {
-    path: 'filtros',
-    component: FiltroGeneralComponent
+    path: 'aeropuertos',
+    loadChildren: () =>
+      import('./aeropuertos/aeropuertos.module').then(
+        (m) => m.AeropuertosModule
+      ),
   },
-  {
-    path: 'buscarVuelos/:param1/:param2/:param3/:param4',
-    component: BuscarVuelosComponent
-  },
-  { path: '**', component: PaginaNoEncontradaComponent }
+  { path: '**', component: PaginaNoEncontradaComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
