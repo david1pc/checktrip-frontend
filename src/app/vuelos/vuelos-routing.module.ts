@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BuscarVuelosComponent } from '../aeropuertos/pages/buscar-vuelos/buscar-vuelos.component';
+import { PrincipalComponent } from './pages/principal/principal.component';
 
 const routes: Routes = [
   {
@@ -8,7 +8,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: BuscarVuelosComponent,
+        component: PrincipalComponent,
       },
     ],
   },
