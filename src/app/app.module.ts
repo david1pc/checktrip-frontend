@@ -9,6 +9,7 @@ import { AuthInterceptor } from './auth/services/auth.interceptor.ts';
 import { AuthenticationService } from './auth/services/authentication.service';
 import { AirportCitySearchService } from './aeropuertos/services/airport-city-search.service';
 import { SharedModule } from './shared/shared.module';
+import { VuelosService } from './vuelos/services/vuelos.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { SharedModule } from './shared/shared.module';
   providers: [
     AuthenticationService,
     AirportCitySearchService,
+    VuelosService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

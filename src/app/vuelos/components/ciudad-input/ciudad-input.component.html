@@ -1,0 +1,24 @@
+<form (ngSubmit)="buscar()" autocomplete="off">
+  <label for="exampleDataList" class="form-label fw-bold fs-8 m-0">{{
+    label
+  }}</label>
+  <input
+    class="form-control inp-height inp-width"
+    type="text"
+    [placeholder]="placeholder"
+    [(ngModel)]="termino"
+    (input)="teclaPresionada()"
+    (change)="emitir_opcion_seleccionada($event)"
+    name="name"
+    list="datalistOptions"
+    id="exampleDataList"
+  />
+  <datalist id="datalistOptions">
+    <option
+      *ngFor="let item of ciudades"
+      value="{{ item.name }} ({{ item.iataCode }})"
+    >
+      {{ item.address.countryCode }}
+    </option>
+  </datalist>
+</form>
