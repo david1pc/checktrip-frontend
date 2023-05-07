@@ -17,7 +17,10 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // cuando consuma el servicio de token no configura los headers
-    if (request.url.includes('oauth2')) {
+    if (
+      request.url.includes('oauth2') ||
+      this.authenticationService.getToken() == null
+    ) {
       return next.handle(request);
     }
 
