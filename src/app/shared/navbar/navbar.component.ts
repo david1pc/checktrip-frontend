@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/auth/services/authentication.serv
 })
 export class NavbarComponent {
   hideNavbar: boolean = false;
+  username: string | null = '';
 
   constructor(
     private router: Router,
@@ -22,6 +23,7 @@ export class NavbarComponent {
         this.hideNavbar = false;
       }
     });
+    this.username = sessionStorage.getItem('username') || null;
   }
 
   cerrarSesion() {

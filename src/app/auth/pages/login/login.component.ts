@@ -27,7 +27,6 @@ export class LoginComponent {
   }
 
   login() {
-    console.log(this.formulario.value.username);
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
       this.authenticationService.login().subscribe({
@@ -42,7 +41,6 @@ export class LoginComponent {
                   'Ha iniciado sesion correctamente',
                   '/'
                 );
-                // this.router.navigate(['/']);
               },
               error: (error) => {
                 this.verModal('Login', error.error);

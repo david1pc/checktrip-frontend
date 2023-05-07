@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { VuelosService } from '../../services/vuelos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Datum, Viajes } from '../../interfaces/vuelos.interface';
+import { ModalAuthComponent } from 'src/app/auth/components/modal-auth/modal-auth.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css'],
 })
-export class PrincipalComponent {
+export class PrincipalComponent implements OnInit {
   termino_origen: string = '';
   termino_destino: string = '';
   ciudades_origen: Datum[] = [];
@@ -32,7 +34,8 @@ export class PrincipalComponent {
   constructor(
     private vuelosService: VuelosService,
     private route: ActivatedRoute,
-    private formBuider: FormBuilder
+    private formBuider: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.formulario = this.formBuider.group({
       ciudadOrigen: ['', []],
@@ -44,6 +47,27 @@ export class PrincipalComponent {
       tipoVuelo: ['', [Validators.required]],
       travelClass: ['', [Validators.required]],
     });
+  }
+  ngOnInit(): void {
+    if (!sessionStorage.getItem('username')) {
+      this.verModal(
+        'Vuelos',
+        'Debe iniciar sesion para continuar',
+        'auth/login'
+      );
+    }
+  }
+
+  verModal(titulo: string, descripcion: string, navegacion: string) {
+    const modalRef = this.modalService.open(ModalAuthComponent, {
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      titulo: titulo,
+      descripcion: descripcion,
+      navegacion: navegacion,
+    };
   }
 
   cambiarTipo(event: any) {

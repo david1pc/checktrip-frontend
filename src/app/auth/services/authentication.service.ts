@@ -30,6 +30,7 @@ export class AuthenticationService {
   guardarToken(token_amaedus: any, token_checktrip: any) {
     sessionStorage.setItem('token', token_amaedus.access_token);
     sessionStorage.setItem('token_checktrip', token_checktrip.token);
+    sessionStorage.setItem('username', token_checktrip.username);
   }
 
   getToken() {

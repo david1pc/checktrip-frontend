@@ -23,14 +23,34 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/aeropuertos">Aeropuertos</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/services">API2</a>
+        <li class="last-item" routerLinkActive="active" *ngIf="!username">
+          <a class="nav-link" routerLink="/auth/login">Login</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/contact">API3</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" (click)="cerrarSesion()">cerrar sesion</a>
+        <li class="nav-item dropdown last-item" *ngIf="username">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ username }}
+          </a>
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdown"
+            routerLinkActive="active"
+          >
+            <li><a class="dropdown-item" href="#">Mis itinerarios</a></li>
+            <li><a class="dropdown-item" href="#">Perfil</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item salir-opcion" (click)="cerrarSesion()"
+                >Salir</a
+              >
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
