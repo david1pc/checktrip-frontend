@@ -1,0 +1,143 @@
+<div
+  class="bg-light d-flex flex-column justify-content-center align-items-center vh-100"
+>
+  <div
+    class="bg-white p-5 rounded-5 text-secondary shadow"
+    style="width: 40rem"
+  >
+    <div class="text-center fs-1 fw-bold">Registro</div>
+    <form [formGroup]="formulario">
+      <div class="input-group mt-4">
+        <div class="input-group-text bg-info">
+          <img
+            src="/assets/username-icon.svg"
+            alt="nombres-icon"
+            style="height: 1rem"
+          />
+        </div>
+        <input
+          class="form-control bg-light"
+          type="text"
+          formControlName="nombres"
+          placeholder="Nombres"
+        />
+      </div>
+      <span class="form-text text-danger" *ngIf="campoEsValido('nombres')">
+        Los nombres son obligatorios.
+      </span>
+      <div class="input-group mt-1">
+        <div class="input-group-text bg-info">
+          <img
+            src="/assets/username-icon.svg"
+            alt="apellidos-icon"
+            style="height: 1rem"
+          />
+        </div>
+        <input
+          class="form-control bg-light"
+          type="text"
+          formControlName="apellidos"
+          placeholder="Apellidos"
+        />
+      </div>
+      <span class="form-text text-danger" *ngIf="campoEsValido('apellidos')">
+        Los apellidos son obligatorios.
+      </span>
+      <div class="input-group mt-1">
+        <div class="input-group-text bg-info">
+          <img src="/assets/date.svg" alt="fecha-icon" style="height: 1rem" />
+        </div>
+        <input
+          class="form-control bg-light color-input"
+          type="date"
+          formControlName="fecha_nacimiento"
+          [placeholder]="texto_fecha"
+        />
+      </div>
+      <div class="input-group mt-1">
+        <div class="input-group-text bg-info">
+          <img src="/assets/email.svg" alt="correo-icon" style="height: 1rem" />
+        </div>
+        <input
+          class="form-control bg-light color-input"
+          type="email"
+          formControlName="correo"
+          placeholder="Correo"
+        />
+      </div>
+      <span class="form-text text-danger" *ngIf="campoEsValido('correo')">
+        El correo es obligatorio.
+      </span>
+      <div class="input-group mt-1">
+        <div class="input-group-text bg-info">
+          <img
+            src="/assets/username-icon.svg"
+            alt="username-icon"
+            style="height: 1rem"
+          />
+        </div>
+        <input
+          class="form-control bg-light color-input"
+          type="text"
+          formControlName="username"
+          placeholder="Username"
+        />
+      </div>
+      <span class="form-text text-danger" *ngIf="campoEsValido('username')">
+        El username es obligatorio.
+      </span>
+      <div class="input-group mt-1">
+        <div class="input-group-text bg-info">
+          <img
+            src="/assets/password-icon.svg"
+            alt="password-icon"
+            style="height: 1rem"
+          />
+        </div>
+        <input
+          class="form-control bg-light color-input"
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+        />
+      </div>
+      <span class="form-text text-danger" *ngIf="campoEsValido('password')">
+        La contraseña es obligatorio.
+      </span>
+      <div class="d-flex justify-content-start mt-2">
+        <div class="d-flex align-items-center gap-1">
+          <input
+            class="form-check-input"
+            formControlName="condiciones"
+            type="checkbox"
+            id="condiciones"
+          />
+          <label class="pt-1" style="font-size: 0.9rem" for="condiciones">
+            Aceptar terminos y condiciones de CheckTrip
+          </label>
+        </div>
+      </div>
+      <span
+        class="form-text text-danger"
+        *ngIf="campoEsValidoCondiciones('condiciones')"
+      >
+        Debes aceptar los terminos y condiciones
+      </span>
+      <button
+        type="submit"
+        class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm"
+        (click)="registrarCuenta()"
+      >
+        Registrarse
+      </button>
+      <div class="d-flex gap-1 justify-content-center mt-1">
+        <div>¿Ya tienes una cuenta?</div>
+        <a
+          routerLink="/auth/login"
+          class="text-decoration-none text-info fw-semibold pe-auto"
+          >Login</a
+        >
+      </div>
+    </form>
+  </div>
+</div>

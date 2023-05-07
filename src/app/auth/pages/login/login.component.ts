@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { AuthChecktripService } from '../../services/auth-checktrip.service';
+import { ModalAuthComponent } from '../../components/modal-auth/modal-auth.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,8 @@ export class LoginComponent {
     private authenticationService: AuthenticationService,
     private auth_checktrip: AuthChecktripService,
     private router: Router,
-    private formBuider: FormBuilder
+    private formBuider: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.formulario = this.formBuider.group({
       username: ['', [Validators.required]],
@@ -24,6 +27,7 @@ export class LoginComponent {
   }
 
   login() {
+    console.log(this.formulario.value.username);
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
       this.authenticationService.login().subscribe({
@@ -33,10 +37,15 @@ export class LoginComponent {
             .subscribe({
               next: (data) => {
                 this.authenticationService.guardarToken(response, data);
-                this.router.navigate(['/']);
+                this.verModalExito(
+                  'Login',
+                  'Ha iniciado sesion correctamente',
+                  '/'
+                );
+                // this.router.navigate(['/']);
               },
               error: (error) => {
-                console.log(error);
+                this.verModal('Login', error.error);
               },
             });
         },
@@ -45,5 +54,32 @@ export class LoginComponent {
         },
       });
     }
+  }
+
+  verModal(titulo: string, descripcion: string) {
+    const modalRef = this.modalService.open(ModalAuthComponent, {
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      titulo: titulo,
+      descripcion: descripcion,
+    };
+  }
+
+  verModalExito(titulo: string, descripcion: string, navegacion: string) {
+    const modalRef = this.modalService.open(ModalAuthComponent, {
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      titulo: titulo,
+      descripcion: descripcion,
+      navegacion: navegacion,
+    };
+  }
+
+  registrarse() {
+    this.router.navigate(['registro']);
   }
 }

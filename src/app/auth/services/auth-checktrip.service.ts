@@ -1,6 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Login, LoginResponse } from '../interfaces/auth.interface';
+import {
+  ClientRequest,
+  Login,
+  LoginResponse,
+} from '../interfaces/auth.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -17,6 +21,13 @@ export class AuthChecktripService {
     return this.http.post<any>(
       environment.url_api_checktrip + 'auth/login',
       loginDTO
+    );
+  }
+
+  registroChecktrip(datosCliente: ClientRequest) {
+    return this.http.post<any>(
+      environment.url_api_checktrip + 'auth/register',
+      datosCliente
     );
   }
 }

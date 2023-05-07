@@ -1,0 +1,51 @@
+<div class="modal-header" *ngIf="!data.navegacion">
+  <h4 class="modal-title">{{ data.titulo }}</h4>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    aria-label="Close"
+    (click)="modal.dismiss()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-header" *ngIf="data.navegacion">
+  <h4 class="modal-title">{{ data.titulo }}</h4>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    aria-label="Close"
+    (click)="modal.dismiss()"
+    routerLink="{{ data.navegacion }}"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row m-1 mt-4">
+      <div class="container text-left py-3">
+        <strong>{{ data.descripcion }}</strong>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer" *ngIf="!data.navegacion">
+  <button
+    type="button"
+    class="btn btn-secondary border-0"
+    (click)="modal.close()"
+  >
+    Cerrar
+  </button>
+</div>
+<div class="modal-footer" *ngIf="data.navegacion">
+  <button
+    type="button"
+    class="btn btn-secondary border-0"
+    (click)="modal.close()"
+    routerLink="{{ data.navegacion }}"
+  >
+    Continuar
+  </button>
+</div>
