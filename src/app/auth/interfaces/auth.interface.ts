@@ -21,3 +21,13 @@ export interface person {
   password: string;
   correo: string;
 }
+
+export interface AccountRecoveryRequest {
+  correo: string;
+}
+
+export interface ClientPasswdRequest {
+  username: string;
+  password: string;
+  newPassword: string;
+}

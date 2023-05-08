@@ -3,6 +3,8 @@ import { AuthChecktripService } from '../../services/auth-checktrip.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientRequest } from '../../interfaces/auth.interface';
+import { ModalAuthComponent } from '../../components/modal-auth/modal-auth.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-registro',
@@ -15,7 +17,8 @@ export class RegistroComponent {
   constructor(
     private auth_checktrip: AuthChecktripService,
     private router: Router,
-    private formBuider: FormBuilder
+    private formBuider: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.formulario = this.formBuider.group({
       username: ['', [Validators.required]],
@@ -47,8 +50,15 @@ export class RegistroComponent {
     };
     this.auth_checktrip.registroChecktrip(datos_cliente).subscribe({
       next: (respuesta: any) => {
-        console.log(respuesta);
-        console.log('Creado con exito');
+        this.verModalExito(
+          'Registro de cuenta',
+          'Se ha creado la cuenta con exito',
+          'auth/login'
+        );
+      },
+      error: (error: any) => {
+        console.log(error);
+        this.verModal('Registro de cuenta', error.error.detail);
       },
     });
   }
@@ -73,5 +83,28 @@ export class RegistroComponent {
     } else {
       this.formulario.controls['condiciones'].setValue(true);
     }
+  }
+
+  verModalExito(titulo: string, descripcion: string, navegacion: string) {
+    const modalRef = this.modalService.open(ModalAuthComponent, {
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      titulo: titulo,
+      descripcion: descripcion,
+      navegacion: navegacion,
+    };
+  }
+
+  verModal(titulo: string, descripcion: string) {
+    const modalRef = this.modalService.open(ModalAuthComponent, {
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      titulo: titulo,
+      descripcion: descripcion,
+    };
   }
 }
