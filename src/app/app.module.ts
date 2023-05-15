@@ -10,10 +10,11 @@ import { AuthenticationService } from './auth/services/authentication.service';
 import { AirportCitySearchService } from './aeropuertos/services/airport-city-search.service';
 import { SharedModule } from './shared/shared.module';
 import { VuelosService } from './vuelos/services/vuelos.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, SharedModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, SharedModule, BrowserAnimationsModule],
   providers: [
     AuthenticationService,
     AirportCitySearchService,

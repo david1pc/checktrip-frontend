@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/auth/services/authentication.serv
 export class NavbarComponent {
   hideNavbar: boolean = false;
   username: string | null = '';
+  seleccion_divisa: string = '';
 
   constructor(
     private router: Router,
@@ -23,7 +24,16 @@ export class NavbarComponent {
         this.hideNavbar = false;
       }
     });
+    if (!sessionStorage.getItem('divisa')) {
+      sessionStorage.setItem('divisa', 'COP');
+    }
+    this.seleccion_divisa = sessionStorage.getItem('divisa') || 'COP';
     this.username = sessionStorage.getItem('username') || null;
+  }
+
+  cambiarDivisa(divisa: string) {
+    sessionStorage.setItem('divisa', divisa);
+    this.seleccion_divisa = divisa;
   }
 
   cerrarSesion() {

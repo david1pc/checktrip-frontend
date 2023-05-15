@@ -11,7 +11,7 @@ export class CiudadDestinoInputComponent {
   @Input() placeholder: string = '';
   @Input() label: string = '';
   @Input() ciudades: Datum[] = [];
-  termino: string = '';
+  @Input() termino: string = '';
   @Output() onEnterDestino: EventEmitter<string> = new EventEmitter();
   @Output() onDebounceDestino: EventEmitter<string> = new EventEmitter();
   @Output() onSelectedDestino: EventEmitter<string> = new EventEmitter();

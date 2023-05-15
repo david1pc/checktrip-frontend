@@ -20,6 +20,15 @@
   width: 100%;
 }
 
+li {
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  justify-self: end;
+}
+
 .nav-item {
   margin-left: 30px;
 }

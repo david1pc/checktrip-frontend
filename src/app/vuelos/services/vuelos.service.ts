@@ -23,10 +23,12 @@ export class VuelosService {
     fechaSalida: string,
     cantidadAdultos: string,
     cantidadInfantes: string,
-    clase: string
+    clase: string,
+    vueloDirecto: string
   ): Observable<any> {
     let travelClass: string = clase ? '&travelClass=' + clase : '';
-    let parametros: string = `?originLocationCode=${codigoOrigen}&destinationLocationCode=${codigoDestino}&departureDate=${fechaSalida}&adults=${cantidadAdultos}&children=${cantidadInfantes}&nonStop=true&max=250${travelClass}`;
+    let currency: string = sessionStorage.getItem('divisa') || 'COP';
+    let parametros: string = `?originLocationCode=${codigoOrigen}&destinationLocationCode=${codigoDestino}&departureDate=${fechaSalida}&adults=${cantidadAdultos}&children=${cantidadInfantes}&nonStop=${vueloDirecto}&currencyCode=${currency}&max=250${travelClass}`;
     let urlApi: string =
       'https://test.api.amadeus.com/v2/shopping/flight-offers' + parametros;
     return this.http.get<Viajes>(urlApi);

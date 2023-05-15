@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './pages/principal/principal.component';
+import { ResultadosVuelosComponent } from './pages/resultados-vuelos/resultados-vuelos.component';
 
 const routes: Routes = [
   {
@@ -9,6 +10,10 @@ const routes: Routes = [
       {
         path: '',
         component: PrincipalComponent,
+      },
+      {
+        path: 'ofertas/:origen/:destino/:salida/:adultos/:infantes/:clase/:vueloDirecto',
+        component: ResultadosVuelosComponent,
       },
     ],
   },

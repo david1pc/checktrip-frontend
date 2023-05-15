@@ -1,23 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { VuelosService } from '../../services/vuelos.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Datum, Viajes } from '../../interfaces/vuelos.interface';
-import { ModalAuthComponent } from 'src/app/auth/components/modal-auth/modal-auth.component';
+import { VuelosService } from '../../services/vuelos.service';
+import {
+  Datum,
+  OfertaViaje,
+  Viaje,
+  ViajeInfo,
+  Viajes,
+} from '../../interfaces/vuelos.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalViajeComponent } from '../../components/modal-viaje/modal-viaje.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-principal',
-  templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css'],
+  selector: 'app-resultados-vuelos',
+  templateUrl: './resultados-vuelos.component.html',
+  styleUrls: ['./resultados-vuelos.component.css'],
 })
-export class PrincipalComponent implements OnInit {
+export class ResultadosVuelosComponent {
+  origen: string = '';
+  destino: string = '';
+  salida: string = '';
+  adultos: string = '';
+  infantes: string = '';
+  clase: string = '';
+  vueloDirecto: string = '';
+  esDirecto: string = '';
+
+  viajes: OfertaViaje[] = [];
+  yaBusco: boolean = false;
+
+  tableSize: number = 5;
+  tableSizes: any = [5, 10, 15, 20];
+  count: number = 0;
+  page: number = 1;
+
+  // Busqueda de viaje
+
   termino_origen: string = '';
   termino_destino: string = '';
   ciudades_origen: Datum[] = [];
   ciudades_destino: Datum[] = [];
   hayError: boolean = false;
-  yaBusco: boolean = false;
 
   ciudadOrigen: string = '';
   ciudadDestino: string = '';
@@ -29,16 +53,14 @@ export class PrincipalComponent implements OnInit {
   tipoVuelo: string = '';
 
   formulario: FormGroup;
-  vuelos: any[] = [];
-
   busqueda_origen: string = '';
   busqueda_destino: string = '';
 
   constructor(
-    private vuelosService: VuelosService,
     private route: ActivatedRoute,
-    private formBuider: FormBuilder,
+    private vuelosService: VuelosService,
     private modalService: NgbModal,
+    private formBuider: FormBuilder,
     private router: Router
   ) {
     this.formulario = this.formBuider.group({
@@ -53,29 +75,98 @@ export class PrincipalComponent implements OnInit {
       vueloDirecto: ['', []],
     });
   }
+
   ngOnInit(): void {
-    if (!sessionStorage.getItem('username')) {
-      this.verModal(
-        'Vuelos',
-        'Debe iniciar sesion para continuar',
-        'auth/login'
-      );
-    }
-    this.formulario.controls['vueloDirecto'].setValue(true);
+    this.buscarVuelos();
   }
 
-  verModal(titulo: string, descripcion: string, navegacion: string) {
-    const modalRef = this.modalService.open(ModalAuthComponent, {
-      size: 'md',
+  buscarVuelos() {
+    this.route.paramMap.subscribe((params) => {
+      this.origen = params.get('origen') ?? '';
+      this.destino = params.get('destino') ?? '';
+      this.salida = params.get('salida') ?? '';
+      this.adultos = params.get('adultos') ?? '';
+      this.infantes = params.get('infantes') ?? '';
+      this.clase = params.get('clase') ?? '';
+      this.vueloDirecto = params.get('vueloDirecto') ?? '';
+
+      if (this.vueloDirecto === 'true') {
+        this.esDirecto = 'Directo';
+      }
+
+      this.vuelosService
+        .flightOffers(
+          this.origen,
+          this.destino,
+          this.salida,
+          this.adultos,
+          this.infantes,
+          this.clase,
+          this.vueloDirecto
+        )
+        .subscribe({
+          next: (resultado: Viajes) => {
+            this.viajes = [];
+            resultado.data.map((viaje) => {
+              let viajeInfo: ViajeInfo = {
+                itineraries: viaje.itineraries,
+                numberOfBookableSeats: viaje.numberOfBookableSeats,
+                price: viaje.price,
+              };
+              if (this.vueloDirecto === 'false') {
+                this.esDirecto = `${viaje.itineraries[0].segments.length} Paradas`;
+              }
+              this.viajes.push({ viaje: viajeInfo });
+            });
+          },
+        });
+    });
+
+    this.formulario.controls['ciudadOrigen'].setValue(
+      sessionStorage.getItem('busqueda_origen')
+    );
+    this.formulario.controls['ciudadDestino'].setValue(
+      sessionStorage.getItem('busqueda_destino')
+    );
+
+    this.busqueda_origen = sessionStorage.getItem('busqueda_origen') || '';
+    this.busqueda_destino = sessionStorage.getItem('busqueda_destino') || '';
+    this.seleccionar_ciudad_origen(this.busqueda_origen);
+    this.seleccionar_ciudad_destino(this.busqueda_destino);
+    this.formulario.controls['fecha_salida'].setValue(this.salida);
+    this.formulario.controls['cantidadAdultos'].setValue(this.adultos);
+    this.formulario.controls['cantidadInfantes'].setValue(this.infantes);
+    this.formulario.controls['tipoVuelo'].setValue('ida');
+    this.formulario.controls['travelClass'].setValue(this.clase);
+    let opcion = false;
+    if (this.vueloDirecto == 'true') {
+      opcion = true;
+    }
+    this.formulario.controls['vueloDirecto'].setValue(opcion);
+  }
+
+  abrirInfoViaje(viaje: ViajeInfo) {
+    this.verModal(viaje);
+  }
+
+  verModal(viaje: ViajeInfo) {
+    const modalRef = this.modalService.open(ModalViajeComponent, {
+      size: 'lg',
       backdrop: 'static',
     });
     modalRef.componentInstance.data = {
-      titulo: titulo,
-      descripcion: descripcion,
-      navegacion: navegacion,
+      viaje: viaje,
+      origen: this.origen,
+      destino: this.destino,
+      clase: this.clase,
     };
   }
 
+  onDataChange(event: any) {
+    this.page = event;
+  }
+
+  // Buscar viajes
   cambiarTipo(event: any) {
     const valor = event.target.value;
     this.formulario.controls['tipoVuelo'].setValue(valor);
@@ -128,13 +219,11 @@ export class PrincipalComponent implements OnInit {
   seleccionar_ciudad_origen(ciudad: string) {
     const iata_code = ciudad.split('(')[1].replace(')', '');
     this.ciudadOrigen = iata_code;
-    this.busqueda_origen = ciudad;
   }
 
   seleccionar_ciudad_destino(ciudad: string) {
     const iata_code = ciudad.split('(')[1].replace(')', '');
     this.ciudadDestino = iata_code;
-    this.busqueda_destino = ciudad;
   }
 
   buscarCiudadDestino(termino: string) {
@@ -192,9 +281,6 @@ export class PrincipalComponent implements OnInit {
           )
           .subscribe({
             next: (resultado: Viajes) => {
-              this.vuelos = this.estructurarDatos(resultado.data);
-              sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
-              sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
               this.router.navigate([
                 '/vuelos/ofertas',
                 this.ciudadOrigen,

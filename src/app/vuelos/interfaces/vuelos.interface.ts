@@ -159,3 +159,14 @@ export interface TravelerPricingPrice {
   total: string;
   base: string;
 }
+
+export interface ViajeInfo {
+  id?: number;
+  numberOfBookableSeats: number;
+  price: ViajePrice;
+  itineraries: Itinerary[];
+}
+
+export interface OfertaViaje {
+  viaje: ViajeInfo;
+}
