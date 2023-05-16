@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VuelosService } from '../../services/vuelos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Datum, Viajes } from '../../interfaces/vuelos.interface';
+import { Datum } from '../../interfaces/vuelos.interface';
 import { ModalAuthComponent } from 'src/app/auth/components/modal-auth/modal-auth.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -180,49 +180,33 @@ export class PrincipalComponent implements OnInit {
       this.yaBusco = true;
       const tipoVuelo = this.formulario.controls['tipoVuelo'].value;
       if (tipoVuelo == 'ida') {
-        this.vuelosService
-          .flightOffers(
-            this.ciudadOrigen,
-            this.ciudadDestino,
-            value.fecha_salida,
-            value.cantidadAdultos,
-            value.cantidadInfantes,
-            value.travelClass,
-            value.vueloDirecto
-          )
-          .subscribe({
-            next: (resultado: Viajes) => {
-              this.vuelos = this.estructurarDatos(resultado.data);
-              sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
-              sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
-              this.router.navigate([
-                '/vuelos/ofertas',
-                this.ciudadOrigen,
-                this.ciudadDestino,
-                value.fecha_salida,
-                value.cantidadAdultos,
-                value.cantidadInfantes,
-                value.travelClass,
-                value.vueloDirecto,
-              ]);
-            },
-          });
+        sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
+        sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
+        this.router.navigate([
+          '/vuelos/ofertas',
+          this.ciudadOrigen,
+          this.ciudadDestino,
+          value.fecha_salida,
+          value.cantidadAdultos,
+          value.cantidadInfantes,
+          value.travelClass,
+          value.vueloDirecto,
+        ]);
       } else {
+        sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
+        sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
+        this.router.navigate([
+          '/vuelos/ofertas',
+          this.ciudadOrigen,
+          this.ciudadDestino,
+          value.fecha_salida,
+          value.fecha_vuelta,
+          value.cantidadAdultos,
+          value.cantidadInfantes,
+          value.travelClass,
+          value.vueloDirecto,
+        ]);
       }
     }
-  }
-
-  estructurarDatos(response: any[]): any[] {
-    return response.map((item) => {
-      let registro: any = {
-        numeroAsientosReservables: item.numberOfBookableSeats,
-        ultimaFechaEmisionBoletos: item.lastTicketingDateTime,
-        divisa: item.price.currency,
-        total: item.price.grandTotal,
-        itinerarios: [],
-      };
-
-      return registro;
-    });
   }
 }

@@ -165,6 +165,7 @@ export interface ViajeInfo {
   numberOfBookableSeats: number;
   price: ViajePrice;
   itineraries: Itinerary[];
+  dictionaries?: any;
 }
 
 export interface OfertaViaje {

@@ -175,7 +175,10 @@
   <div class="container-viajes">
     <div class="descripcion-viaje" style="text-align: left">
       <mat-icon>flight_takeoff</mat-icon>
-      <h2>Salida de {{ origen }} a {{ destino }} - {{ salida | date }}</h2>
+      <h2>
+        Salida de {{ origen }} a {{ destino }} - {{ salida | date }} y Vuelta de
+        {{ destino }} a {{ origen }} - {{ vuelta | date }}
+      </h2>
     </div>
     <div
       *ngFor="
@@ -190,7 +193,12 @@
       class="container"
     >
       <div class="container-cards">
-        <div class="card" (click)="abrirInfoViaje(viaje.viaje)">
+        <div
+          class="card"
+          (click)="
+            abrirInfoViaje(viaje.viaje_salida.viaje, viaje.viaje_vuelta.viaje)
+          "
+        >
           <div class="card-body d-flex">
             <div class="viajes-info">
               <div class="viajes-detalles">
@@ -198,8 +206,8 @@
                   <div class="contenedor-detalles">
                     <div class="viajes-tiempo-izquierda">
                       <strong class="hora">{{
-                        viaje.viaje.itineraries[0].segments[0].departure.at
-                          | date : "shortTime"
+                        viaje.viaje_salida.viaje.itineraries[0].segments[0]
+                          .departure.at | date : "shortTime"
                       }}</strong>
                       <div class="localizacion">
                         {{ origen }}
@@ -207,7 +215,7 @@
                     </div>
                     <div class="viajes-separador">
                       <div class="viajes-separador-duracion">
-                        {{ viaje.viaje.itineraries[0].duration }}
+                        {{ viaje.viaje_salida.viaje.itineraries[0].duration }}
                       </div>
                       <div
                         class="viajes-separador-linea"
@@ -215,17 +223,18 @@
                       ></div>
                       <div class="viajes-separador-segmento">
                         {{
-                          viaje.viaje.itineraries[0].segments.length > 1
-                            ? viaje.viaje.itineraries[0].segments.length +
-                              " Paradas"
+                          viaje.viaje_salida.viaje.itineraries[0].segments
+                            .length > 1
+                            ? viaje.viaje_salida.viaje.itineraries[0].segments
+                                .length + " Paradas"
                             : "Directo"
                         }}
                       </div>
                     </div>
                     <div class="viajes-tiempo-derecha">
                       <strong class="hora">{{
-                        viaje.viaje.itineraries[0].segments[0].arrival.at
-                          | date : "shortTime"
+                        viaje.viaje_salida.viaje.itineraries[0].segments[0]
+                          .arrival.at | date : "shortTime"
                       }}</strong>
                       <div class="localizacion">
                         {{ destino }}
@@ -240,8 +249,63 @@
               <div class="viaje-precio">
                 <p class="precio">
                   {{
-                    viaje.viaje.price.total
-                      | currency : viaje.viaje.price.currency
+                    viaje.viaje_salida.viaje.price.total
+                      | currency : viaje.viaje_salida.viaje.price.currency
+                  }}
+                </p>
+              </div>
+            </div>
+            <div class="viajes-info">
+              <div class="viajes-detalles">
+                <div class="viajes-detalles-info">
+                  <div class="contenedor-detalles">
+                    <div class="viajes-tiempo-izquierda">
+                      <strong class="hora">{{
+                        viaje.viaje_vuelta.viaje.itineraries[0].segments[0]
+                          .departure.at | date : "shortTime"
+                      }}</strong>
+                      <div class="localizacion">
+                        {{ destino }}
+                      </div>
+                    </div>
+                    <div class="viajes-separador">
+                      <div class="viajes-separador-duracion">
+                        {{ viaje.viaje_vuelta.viaje.itineraries[0].duration }}
+                      </div>
+                      <div
+                        class="viajes-separador-linea"
+                        style="width: 100%; position: relative"
+                      ></div>
+                      <div class="viajes-separador-segmento">
+                        {{
+                          viaje.viaje_vuelta.viaje.itineraries[0].segments
+                            .length > 1
+                            ? viaje.viaje_vuelta.viaje.itineraries[0].segments
+                                .length + " Paradas"
+                            : "Directo"
+                        }}
+                      </div>
+                    </div>
+                    <div class="viajes-tiempo-derecha">
+                      <strong class="hora">{{
+                        viaje.viaje_vuelta.viaje.itineraries[0].segments[0]
+                          .arrival.at | date : "shortTime"
+                      }}</strong>
+                      <div class="localizacion">
+                        {{ origen }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="division-viaje-precio">
+                <div class="division-viaje"></div>
+              </div>
+              <div class="viaje-precio">
+                <p class="precio">
+                  {{
+                    viaje.viaje_vuelta.viaje.price.total
+                      | currency : viaje.viaje_vuelta.viaje.price.currency
                   }}
                 </p>
               </div>

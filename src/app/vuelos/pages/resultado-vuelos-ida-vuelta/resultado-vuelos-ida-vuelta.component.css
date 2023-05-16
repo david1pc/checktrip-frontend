@@ -115,6 +115,10 @@
   gap: 8px;
 }
 
+.descripcion-viaje h2 {
+  font-size: 24px;
+}
+
 /*
   Busqueda de vuelos
 
@@ -151,6 +155,6 @@
   align-items: center;
 }
 
-.descripcion-viaje h2 {
-  font-size: 24px;
+.card-body {
+  flex-direction: column;
 }

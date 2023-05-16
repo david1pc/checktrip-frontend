@@ -8,25 +8,28 @@ import {
   Viajes,
 } from '../../interfaces/vuelos.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalViajeComponent } from '../../components/modal-viaje/modal-viaje.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalViajeIdaVueltaComponent } from '../../components/modal-viaje-ida-vuelta/modal-viaje-ida-vuelta.component';
 
 @Component({
-  selector: 'app-resultados-vuelos',
-  templateUrl: './resultados-vuelos.component.html',
-  styleUrls: ['./resultados-vuelos.component.css'],
+  selector: 'app-resultado-vuelos-ida-vuelta',
+  templateUrl: './resultado-vuelos-ida-vuelta.component.html',
+  styleUrls: ['./resultado-vuelos-ida-vuelta.component.css'],
 })
-export class ResultadosVuelosComponent {
+export class ResultadoVuelosIdaVueltaComponent {
   origen: string = '';
   destino: string = '';
   salida: string = '';
+  vuelta: string = '';
   adultos: string = '';
   infantes: string = '';
   clase: string = '';
   vueloDirecto: string = '';
   esDirecto: string = '';
 
-  viajes: OfertaViaje[] = [];
+  viajes_salida: OfertaViaje[] = [];
+  viajes_vuelta: OfertaViaje[] = [];
+  viajes: ViajesUnidos[] = [];
   yaBusco: boolean = false;
 
   tableSize: number = 5;
@@ -35,7 +38,6 @@ export class ResultadosVuelosComponent {
   page: number = 1;
 
   // Busqueda de viaje
-
   termino_origen: string = '';
   termino_destino: string = '';
   ciudades_origen: Datum[] = [];
@@ -66,7 +68,7 @@ export class ResultadosVuelosComponent {
       ciudadOrigen: ['', []],
       ciudadDestino: ['', []],
       fecha_salida: ['', [Validators.required]],
-      fecha_vuelta: ['', []],
+      fecha_vuelta: ['', [Validators.required]],
       cantidadAdultos: [
         1,
         [Validators.required, Validators.max(8), Validators.min(1)],
@@ -87,6 +89,7 @@ export class ResultadosVuelosComponent {
       this.origen = params.get('origen') ?? '';
       this.destino = params.get('destino') ?? '';
       this.salida = params.get('salida') ?? '';
+      this.vuelta = params.get('vuelta') ?? '';
       this.adultos = params.get('adultos') ?? '';
       this.infantes = params.get('infantes') ?? '';
       this.clase = params.get('clase') ?? '';
@@ -108,7 +111,7 @@ export class ResultadosVuelosComponent {
         )
         .subscribe({
           next: (resultado: Viajes) => {
-            this.viajes = [];
+            this.viajes_salida = [];
             resultado.data.map((viaje) => {
               let viajeInfo: ViajeInfo = {
                 itineraries: viaje.itineraries,
@@ -116,8 +119,48 @@ export class ResultadosVuelosComponent {
                 price: viaje.price,
                 dictionaries: resultado.dictionaries,
               };
-              this.viajes.push({ viaje: viajeInfo });
+              this.viajes_salida.push({ viaje: viajeInfo });
             });
+            this.vuelosService
+              .flightOffers(
+                this.destino,
+                this.origen,
+                this.vuelta,
+                this.adultos,
+                this.infantes,
+                this.clase,
+                this.vueloDirecto
+              )
+              .subscribe({
+                next: (resultado: Viajes) => {
+                  this.viajes_vuelta = [];
+                  resultado.data.map((viaje) => {
+                    let viajeInfo: ViajeInfo = {
+                      itineraries: viaje.itineraries,
+                      numberOfBookableSeats: viaje.numberOfBookableSeats,
+                      price: viaje.price,
+                      dictionaries: resultado.dictionaries,
+                    };
+                    this.viajes_vuelta.push({ viaje: viajeInfo });
+                  });
+                  this.viajes = [];
+                  let count = 0;
+                  while (count <= this.viajes_salida.length) {
+                    if (
+                      this.viajes_salida[count] &&
+                      this.viajes_vuelta[count]
+                    ) {
+                      this.viajes.push({
+                        viaje_salida: this.viajes_salida[count],
+                        viaje_vuelta: this.viajes_vuelta[count],
+                      });
+                    } else {
+                      break;
+                    }
+                    count += 1;
+                  }
+                },
+              });
           },
         });
     });
@@ -134,9 +177,10 @@ export class ResultadosVuelosComponent {
     this.seleccionar_ciudad_origen(this.busqueda_origen);
     this.seleccionar_ciudad_destino(this.busqueda_destino);
     this.formulario.controls['fecha_salida'].setValue(this.salida);
+    this.formulario.controls['fecha_vuelta'].setValue(this.vuelta);
     this.formulario.controls['cantidadAdultos'].setValue(this.adultos);
     this.formulario.controls['cantidadInfantes'].setValue(this.infantes);
-    this.formulario.controls['tipoVuelo'].setValue('ida');
+    this.formulario.controls['tipoVuelo'].setValue('idavuelta');
     this.formulario.controls['travelClass'].setValue(this.clase);
     let opcion = false;
     if (this.vueloDirecto == 'true') {
@@ -145,20 +189,23 @@ export class ResultadosVuelosComponent {
     this.formulario.controls['vueloDirecto'].setValue(opcion);
   }
 
-  abrirInfoViaje(viaje: ViajeInfo) {
-    this.verModal(viaje);
+  abrirInfoViaje(viaje_salida: ViajeInfo, viaje_vuelta: ViajeInfo) {
+    this.verModal(viaje_salida, viaje_vuelta);
   }
 
-  verModal(viaje: ViajeInfo) {
-    const modalRef = this.modalService.open(ModalViajeComponent, {
+  verModal(viaje_salida: ViajeInfo, viaje_vuelta: ViajeInfo) {
+    const modalRef = this.modalService.open(ModalViajeIdaVueltaComponent, {
       size: 'lg',
       backdrop: 'static',
     });
     modalRef.componentInstance.data = {
-      viaje: viaje,
+      viaje_salida: viaje_salida,
+      viaje_vuelta: viaje_vuelta,
       origen: this.origen,
       destino: this.destino,
       clase: this.clase,
+      total:
+        Number(viaje_salida.price.total) + Number(viaje_vuelta.price.total),
     };
   }
 
@@ -234,7 +281,6 @@ export class ResultadosVuelosComponent {
       next: (busqueda) => {
         busqueda.data.map((ciudad) => {
           if (ciudad.iataCode) {
-            console.log(ciudad);
             this.ciudades_destino.push(ciudad);
           }
         });
@@ -294,4 +340,9 @@ export class ResultadosVuelosComponent {
       }
     }
   }
+}
+
+export interface ViajesUnidos {
+  viaje_salida: any;
+  viaje_vuelta: any;
 }

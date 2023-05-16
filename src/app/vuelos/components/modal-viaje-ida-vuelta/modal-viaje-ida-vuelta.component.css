@@ -43,16 +43,16 @@
   width: 10px;
 }
 
-.vuelo-segmento-duracion {
-  font-weight: 500;
-}
-
 .vuelo-segmento-detalle-info {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: flex-end;
   justify-content: center;
+}
+
+.vuelo-segmento-duracion {
+  font-weight: 500;
 }
 
 .total p {

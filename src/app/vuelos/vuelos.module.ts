@@ -12,6 +12,8 @@ import { ResultadosVuelosComponent } from './pages/resultados-vuelos/resultados-
 import { MaterialModule } from '../material/material.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalViajeComponent } from './components/modal-viaje/modal-viaje.component';
+import { ResultadoVuelosIdaVueltaComponent } from './pages/resultado-vuelos-ida-vuelta/resultado-vuelos-ida-vuelta.component';
+import { ModalViajeIdaVueltaComponent } from './components/modal-viaje-ida-vuelta/modal-viaje-ida-vuelta.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { ModalViajeComponent } from './components/modal-viaje/modal-viaje.compon
     CiudadDestinoInputComponent,
     ResultadosVuelosComponent,
     ModalViajeComponent,
+    ResultadoVuelosIdaVueltaComponent,
+    ModalViajeIdaVueltaComponent,
   ],
   imports: [
     CommonModule,
