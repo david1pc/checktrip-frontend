@@ -6,8 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng jest",
-    "coverage": "ng jest --coverage",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "sonar": "sonar-scanner"
   },
   "private": true,
