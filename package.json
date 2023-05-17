@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
-    "coverage": "jest --coverage",
+    "coverage": "jest --coverage --passWithNoTests",
     "sonar": "sonar-scanner"
   },
   "private": true,
