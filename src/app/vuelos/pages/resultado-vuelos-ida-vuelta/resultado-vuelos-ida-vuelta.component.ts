@@ -30,7 +30,6 @@ export class ResultadoVuelosIdaVueltaComponent {
   viajes_salida: OfertaViaje[] = [];
   viajes_vuelta: OfertaViaje[] = [];
   viajes: ViajesUnidos[] = [];
-  yaBusco: boolean = false;
 
   tableSize: number = 5;
   tableSizes: any = [5, 10, 15, 20];
@@ -42,7 +41,6 @@ export class ResultadoVuelosIdaVueltaComponent {
   termino_destino: string = '';
   ciudades_origen: Datum[] = [];
   ciudades_destino: Datum[] = [];
-  hayError: boolean = false;
 
   ciudadOrigen: string = '';
   ciudadDestino: string = '';
@@ -112,7 +110,7 @@ export class ResultadoVuelosIdaVueltaComponent {
         .subscribe({
           next: (resultado: Viajes) => {
             this.viajes_salida = [];
-            resultado.data.map((viaje) => {
+            resultado.data.forEach((viaje) => {
               let viajeInfo: ViajeInfo = {
                 itineraries: viaje.itineraries,
                 numberOfBookableSeats: viaje.numberOfBookableSeats,
@@ -134,7 +132,7 @@ export class ResultadoVuelosIdaVueltaComponent {
               .subscribe({
                 next: (resultado: Viajes) => {
                   this.viajes_vuelta = [];
-                  resultado.data.map((viaje) => {
+                  resultado.data.forEach((viaje) => {
                     let viajeInfo: ViajeInfo = {
                       itineraries: viaje.itineraries,
                       numberOfBookableSeats: viaje.numberOfBookableSeats,
@@ -229,36 +227,34 @@ export class ResultadoVuelosIdaVueltaComponent {
 
   buscarCiudadOrigen(termino: string) {
     this.ciudades_origen = [];
-    this.hayError = false;
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_origen.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
 
   sugerencias_origen(termino: string) {
     this.ciudades_origen = [];
-    this.hayError = false;
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_origen.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
@@ -275,36 +271,34 @@ export class ResultadoVuelosIdaVueltaComponent {
 
   buscarCiudadDestino(termino: string) {
     this.ciudades_destino = [];
-    this.hayError = false;
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_destino.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
 
   sugerencias_destino(termino: string) {
     this.ciudades_destino = [];
-    this.hayError = false;
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_destino.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
@@ -312,31 +306,36 @@ export class ResultadoVuelosIdaVueltaComponent {
   buscarVuelo() {
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
-      this.yaBusco = true;
       const tipoVuelo = this.formulario.controls['tipoVuelo'].value;
       if (tipoVuelo == 'ida') {
-        this.router.navigate([
-          '/vuelos/ofertas',
-          this.ciudadOrigen,
-          this.ciudadDestino,
-          value.fecha_salida,
-          value.cantidadAdultos,
-          value.cantidadInfantes,
-          value.travelClass,
-          value.vueloDirecto,
-        ]);
+        this.router
+          .navigate([
+            '/vuelos/ofertas',
+            this.ciudadOrigen,
+            this.ciudadDestino,
+            value.fecha_salida,
+            value.cantidadAdultos,
+            value.cantidadInfantes,
+            value.travelClass,
+            value.vueloDirecto,
+          ])
+          .then(() => {})
+          .catch(() => {});
       } else {
-        this.router.navigate([
-          '/vuelos/ofertas',
-          this.ciudadOrigen,
-          this.ciudadDestino,
-          value.fecha_salida,
-          value.fecha_vuelta,
-          value.cantidadAdultos,
-          value.cantidadInfantes,
-          value.travelClass,
-          value.vueloDirecto,
-        ]);
+        this.router
+          .navigate([
+            '/vuelos/ofertas',
+            this.ciudadOrigen,
+            this.ciudadDestino,
+            value.fecha_salida,
+            value.fecha_vuelta,
+            value.cantidadAdultos,
+            value.cantidadInfantes,
+            value.travelClass,
+            value.vueloDirecto,
+          ])
+          .then(() => {})
+          .catch(() => {});
       }
     }
   }
