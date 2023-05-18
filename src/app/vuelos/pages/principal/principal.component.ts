@@ -103,23 +103,6 @@ export class PrincipalComponent implements OnInit {
     });
   }
 
-  sugerencias_origen(termino: string) {
-    this.ciudades_origen = [];
-    this.termino_origen = termino;
-    this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
-      next: (busqueda) => {
-        busqueda.data.forEach((ciudad) => {
-          if (ciudad.iataCode) {
-            this.ciudades_origen.push(ciudad);
-          }
-        });
-      },
-      error: (err) => {
-        console.error(err.error);
-      },
-    });
-  }
-
   seleccionar_ciudad_origen(ciudad: string) {
     const iata_code = ciudad.split('(')[1].replace(')', '');
     this.ciudadOrigen = iata_code;
@@ -133,23 +116,6 @@ export class PrincipalComponent implements OnInit {
   }
 
   buscarCiudadDestino(termino: string) {
-    this.ciudades_destino = [];
-    this.termino_destino = termino;
-    this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
-      next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
-          if (ciudad.iataCode) {
-            this.ciudades_destino.push(ciudad);
-          }
-        });
-      },
-      error: (err) => {
-        console.error(err.error);
-      },
-    });
-  }
-
-  sugerencias_destino(termino: string) {
     this.ciudades_destino = [];
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({

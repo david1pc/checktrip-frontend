@@ -35,7 +35,7 @@
       <div>
         <app-ciudad-input
           (onEnter)="buscarCiudadOrigen($event)"
-          (onDebounce)="sugerencias_origen($event)"
+          (onDebounce)="buscarCiudadOrigen($event)"
           (onSelected)="seleccionar_ciudad_origen($event)"
           [termino]="busqueda_origen"
           placeholder="Origen"
@@ -47,7 +47,7 @@
       <div>
         <app-ciudad-destino-input
           (onEnterDestino)="buscarCiudadDestino($event)"
-          (onDebounceDestino)="sugerencias_destino($event)"
+          (onDebounceDestino)="buscarCiudadDestino($event)"
           (onSelectedDestino)="seleccionar_ciudad_destino($event)"
           placeholder="Destino"
           [termino]="busqueda_destino"
