@@ -14,12 +14,12 @@ export class ModalViajeComponent {
   constructor(public modal: NgbActiveModal, private router: Router) {}
 
   guardarItinerario() {
-    const clienteIdaViaje = this.estructurarDatos();
+    // const clienteIdaViaje = this.estructurarDatos();
   }
 
   estructurarDatos() {
     let clienteIdaViaje: ClienteIdaViajes = {
-      username: sessionStorage.getItem('username') || '',
+      username: sessionStorage.getItem('username') ?? '',
       viaje: {
         dictionaries: {
           aircraft: this.data.viaje.dictionaries.aircraft,

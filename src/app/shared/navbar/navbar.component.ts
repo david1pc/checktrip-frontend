@@ -27,8 +27,8 @@ export class NavbarComponent {
     if (!sessionStorage.getItem('divisa')) {
       sessionStorage.setItem('divisa', 'COP');
     }
-    this.seleccion_divisa = sessionStorage.getItem('divisa') || 'COP';
-    this.username = sessionStorage.getItem('username') || null;
+    this.seleccion_divisa = sessionStorage.getItem('divisa') ?? 'COP';
+    this.username = sessionStorage.getItem('username') ?? null;
   }
 
   cambiarDivisa(divisa: string) {

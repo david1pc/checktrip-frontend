@@ -54,8 +54,8 @@ describe('LoginComponent', () => {
       username: 'david12',
     };
     const username = 'david12';
-    const passwd = '12345';
+    const wd = '12345';
     jest.spyOn(authServiceMock, 'loginChecktrip').mockReturnValue(of(resp));
-    authServiceMock.loginChecktrip(username, passwd);
+    authServiceMock.loginChecktrip(username, wd);
   });
 });
