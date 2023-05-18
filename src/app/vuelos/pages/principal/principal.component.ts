@@ -182,30 +182,36 @@ export class PrincipalComponent implements OnInit {
       if (tipoVuelo == 'ida') {
         sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
         sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
-        this.router.navigate([
-          '/vuelos/ofertas',
-          this.ciudadOrigen,
-          this.ciudadDestino,
-          value.fecha_salida,
-          value.cantidadAdultos,
-          value.cantidadInfantes,
-          value.travelClass,
-          value.vueloDirecto,
-        ]);
+        this.router
+          .navigate([
+            '/vuelos/ofertas',
+            this.ciudadOrigen,
+            this.ciudadDestino,
+            value.fecha_salida,
+            value.cantidadAdultos,
+            value.cantidadInfantes,
+            value.travelClass,
+            value.vueloDirecto,
+          ])
+          .then()
+          .catch();
       } else {
         sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
         sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
-        this.router.navigate([
-          '/vuelos/ofertas',
-          this.ciudadOrigen,
-          this.ciudadDestino,
-          value.fecha_salida,
-          value.fecha_vuelta,
-          value.cantidadAdultos,
-          value.cantidadInfantes,
-          value.travelClass,
-          value.vueloDirecto,
-        ]);
+        this.router
+          .navigate([
+            '/vuelos/ofertas',
+            this.ciudadOrigen,
+            this.ciudadDestino,
+            value.fecha_salida,
+            value.fecha_vuelta,
+            value.cantidadAdultos,
+            value.cantidadInfantes,
+            value.travelClass,
+            value.vueloDirecto,
+          ])
+          .then()
+          .catch();
       }
     }
   }
