@@ -109,7 +109,7 @@ export class ResultadosVuelosComponent {
         .subscribe({
           next: (resultado: Viajes) => {
             this.viajes = [];
-            resultado.data.map((viaje) => {
+            resultado.data.forEach((viaje) => {
               let viajeInfo: ViajeInfo = {
                 itineraries: viaje.itineraries,
                 numberOfBookableSeats: viaje.numberOfBookableSeats,
@@ -186,7 +186,7 @@ export class ResultadosVuelosComponent {
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_origen.push(ciudad);
           }
@@ -204,7 +204,7 @@ export class ResultadosVuelosComponent {
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_origen.push(ciudad);
           }
@@ -232,9 +232,8 @@ export class ResultadosVuelosComponent {
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
-            console.log(ciudad);
             this.ciudades_destino.push(ciudad);
           }
         });
@@ -251,7 +250,7 @@ export class ResultadosVuelosComponent {
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_destino.push(ciudad);
           }
@@ -269,28 +268,34 @@ export class ResultadosVuelosComponent {
       this.yaBusco = true;
       const tipoVuelo = this.formulario.controls['tipoVuelo'].value;
       if (tipoVuelo == 'ida') {
-        this.router.navigate([
-          '/vuelos/ofertas',
-          this.ciudadOrigen,
-          this.ciudadDestino,
-          value.fecha_salida,
-          value.cantidadAdultos,
-          value.cantidadInfantes,
-          value.travelClass,
-          value.vueloDirecto,
-        ]);
+        this.router
+          .navigate([
+            '/vuelos/ofertas',
+            this.ciudadOrigen,
+            this.ciudadDestino,
+            value.fecha_salida,
+            value.cantidadAdultos,
+            value.cantidadInfantes,
+            value.travelClass,
+            value.vueloDirecto,
+          ])
+          .then(() => {})
+          .catch(() => {});
       } else {
-        this.router.navigate([
-          '/vuelos/ofertas',
-          this.ciudadOrigen,
-          this.ciudadDestino,
-          value.fecha_salida,
-          value.fecha_vuelta,
-          value.cantidadAdultos,
-          value.cantidadInfantes,
-          value.travelClass,
-          value.vueloDirecto,
-        ]);
+        this.router
+          .navigate([
+            '/vuelos/ofertas',
+            this.ciudadOrigen,
+            this.ciudadDestino,
+            value.fecha_salida,
+            value.fecha_vuelta,
+            value.cantidadAdultos,
+            value.cantidadInfantes,
+            value.travelClass,
+            value.vueloDirecto,
+          ])
+          .then(() => {})
+          .catch(() => {});
       }
     }
   }

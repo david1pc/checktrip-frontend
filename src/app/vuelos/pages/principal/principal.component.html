@@ -185,37 +185,3 @@
     </div>
   </div>
 </div>
-<div>
-  <div *ngIf="vuelos.length === 0 && yaBusco">
-    <span class="mensajeError"> No hay datos </span>
-  </div>
-
-  <div class="row bordeGeneral m-1 mt-4" *ngIf="vuelos.length > 0">
-    <div class="container text-left py-3">
-      <h1>Lista vuelos</h1>
-    </div>
-
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Ultima fecha Emision Boletos</th>
-          <th scope="col">Numero Asientos Reservables</th>
-          <th scope="col">Divisa</th>
-          <th scope="col">Total</th>
-          <th scope="col">Detalle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of vuelos; index as i">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ item.ultimaFechaEmisionBoletos }}</td>
-          <td>{{ item.numeroAsientosReservables }}</td>
-          <td>{{ item.divisa }}</td>
-          <td>{{ item.total }}</td>
-          <td><button class="btn btn-success">Ver</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>

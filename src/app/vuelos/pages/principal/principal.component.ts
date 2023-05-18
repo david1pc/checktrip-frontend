@@ -16,8 +16,6 @@ export class PrincipalComponent implements OnInit {
   termino_destino: string = '';
   ciudades_origen: Datum[] = [];
   ciudades_destino: Datum[] = [];
-  hayError: boolean = false;
-  yaBusco: boolean = false;
 
   ciudadOrigen: string = '';
   ciudadDestino: string = '';
@@ -29,7 +27,6 @@ export class PrincipalComponent implements OnInit {
   tipoVuelo: string = '';
 
   formulario: FormGroup;
-  vuelos: any[] = [];
 
   busqueda_origen: string = '';
   busqueda_destino: string = '';
@@ -91,36 +88,34 @@ export class PrincipalComponent implements OnInit {
 
   buscarCiudadOrigen(termino: string) {
     this.ciudades_origen = [];
-    this.hayError = false;
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_origen.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
 
   sugerencias_origen(termino: string) {
     this.ciudades_origen = [];
-    this.hayError = false;
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_origen.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
@@ -139,37 +134,34 @@ export class PrincipalComponent implements OnInit {
 
   buscarCiudadDestino(termino: string) {
     this.ciudades_destino = [];
-    this.hayError = false;
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
         busqueda.data.map((ciudad) => {
           if (ciudad.iataCode) {
-            console.log(ciudad);
             this.ciudades_destino.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
 
   sugerencias_destino(termino: string) {
     this.ciudades_destino = [];
-    this.hayError = false;
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
-        busqueda.data.map((ciudad) => {
+        busqueda.data.forEach((ciudad) => {
           if (ciudad.iataCode) {
             this.ciudades_destino.push(ciudad);
           }
         });
       },
       error: (err) => {
-        this.hayError = true;
+        console.error(err.error);
       },
     });
   }
@@ -177,11 +169,9 @@ export class PrincipalComponent implements OnInit {
   buscarVuelo() {
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
-      this.yaBusco = true;
       const tipoVuelo = this.formulario.controls['tipoVuelo'].value;
       if (tipoVuelo == 'ida') {
-        sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
-        sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
+        this.establecerValoresSesion();
         this.router
           .navigate([
             '/vuelos/ofertas',
@@ -196,8 +186,7 @@ export class PrincipalComponent implements OnInit {
           .then(() => {})
           .catch(() => {});
       } else {
-        sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
-        sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
+        this.establecerValoresSesion();
         this.router
           .navigate([
             '/vuelos/ofertas',
@@ -214,5 +203,10 @@ export class PrincipalComponent implements OnInit {
           .catch(() => {});
       }
     }
+  }
+
+  establecerValoresSesion() {
+    sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
+    sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
   }
 }
