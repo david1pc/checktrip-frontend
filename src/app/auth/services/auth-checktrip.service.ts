@@ -1,13 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AccountRecoveryRequest,
   ClientPasswdRequest,
   ClientRequest,
   Login,
-  LoginResponse,
 } from '../interfaces/auth.interface';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

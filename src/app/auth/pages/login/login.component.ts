@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/auth/services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { AuthChecktripService } from '../../services/auth-checktrip.service';
 import { ModalAuthComponent } from '../../components/modal-auth/modal-auth.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

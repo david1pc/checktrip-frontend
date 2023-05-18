@@ -11,7 +11,13 @@ import { RecuperarCuentaComponent } from './pages/recuperar-cuenta/recuperar-cue
 import { ActualizarPasswdComponent } from './pages/actualizar-passwd/actualizar-passwd.component';
 
 @NgModule({
-  declarations: [LoginComponent, RegistroComponent, ModalAuthComponent, RecuperarCuentaComponent, ActualizarPasswdComponent],
+  declarations: [
+    LoginComponent,
+    RegistroComponent,
+    ModalAuthComponent,
+    RecuperarCuentaComponent,
+    ActualizarPasswdComponent,
+  ],
   imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, SharedModule],
 })
 export class AuthModule {}

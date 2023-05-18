@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/auth/services/authentication.service';
+import { AuthenticationService } from '../../auth/services/authentication.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
