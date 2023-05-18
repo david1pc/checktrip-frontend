@@ -193,8 +193,8 @@ export class PrincipalComponent implements OnInit {
             value.travelClass,
             value.vueloDirecto,
           ])
-          .then()
-          .catch();
+          .then(() => {})
+          .catch(() => {});
       } else {
         sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
         sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
@@ -210,8 +210,8 @@ export class PrincipalComponent implements OnInit {
             value.travelClass,
             value.vueloDirecto,
           ])
-          .then()
-          .catch();
+          .then(() => {})
+          .catch(() => {});
       }
     }
   }
