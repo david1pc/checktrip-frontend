@@ -19,65 +19,11 @@
         class="container text-left py-3"
         *ngFor="let segmento of data.viaje_salida.itineraries[0].segments"
       >
-        <div class="vuelo-segmento-detalle">
-          <figure class="vuelo-segmento">
-            <div class="vuelo-segmento-desde"></div>
-            <div class="vuelo-segmento-linea"></div>
-            <div class="vuelo-segmento-hasta"></div>
-          </figure>
-          <aside class="vuelo-segmento-body" aria-label="segmento-origen">
-            <div class="vuelo-segmento-origen">
-              <strong class="segmento-localizacion">{{
-                segmento.departure.iataCode
-              }}</strong>
-              -
-              {{ segmento.departure.at | date : "medium" }}
-            </div>
-            <div class="vuelo-segmento-info">
-              <div class="vuelo-segmento-duracion">
-                {{ segmento.duration }}
-              </div>
-            </div>
-            <div class="vuelo-segmento-destino">
-              <strong class="segmento-localizacion">{{
-                segmento.arrival.iataCode
-              }}</strong>
-              -
-              {{ segmento.arrival.at | date : "medium" }}
-            </div>
-          </aside>
-          <div class="vuelo-segmento-detalle-info">
-            <div class="container-detalle-vuelo">
-              <p>
-                <strong class="segmento-localizacion">Vuelo:</strong>
-                {{ segmento.carrierCode }}{{ segmento.number }} -
-                {{ data.clase }}
-              </p>
-              <p>
-                <strong class="segmento-localizacion">Aerolinea:</strong>
-                {{
-                  data.viaje_salida.dictionaries.carriers[segmento.carrierCode]
-                }}
-              </p>
-              <p>
-                <strong class="segmento-localizacion">Avión:</strong>
-                {{
-                  data.viaje_salida.dictionaries.aircraft[
-                    segmento.aircraft.code
-                  ]
-                }}
-              </p>
-              <p>
-                <strong class="segmento-localizacion">Precio:</strong>
-                {{
-                  data.viaje_salida.price.base
-                    | currency : data.viaje_salida.price.currency
-                }}
-                <i style="display: block">Sin impuestos</i>
-              </p>
-            </div>
-          </div>
-        </div>
+        <app-segmento-info
+          [segmento]="segmento"
+          [clase]="data.clase"
+          [viaje]="data.viaje_salida"
+        ></app-segmento-info>
       </div>
       <div class="segmento-header segmento-margin">
         <h3>Vuelo de {{ data.destino }} a {{ data.origen }}</h3>
@@ -86,65 +32,11 @@
         class="container text-left py-3"
         *ngFor="let segmento of data.viaje_vuelta.itineraries[0].segments"
       >
-        <div class="vuelo-segmento-detalle">
-          <figure class="vuelo-segmento">
-            <div class="vuelo-segmento-desde"></div>
-            <div class="vuelo-segmento-linea"></div>
-            <div class="vuelo-segmento-hasta"></div>
-          </figure>
-          <aside class="vuelo-segmento-body" aria-label="segmento-destino">
-            <div class="vuelo-segmento-origen">
-              <strong class="segmento-localizacion">{{
-                segmento.departure.iataCode
-              }}</strong>
-              -
-              {{ segmento.departure.at | date : "medium" }}
-            </div>
-            <div class="vuelo-segmento-info">
-              <div class="vuelo-segmento-duracion">
-                {{ segmento.duration }}
-              </div>
-            </div>
-            <div class="vuelo-segmento-destino">
-              <strong class="segmento-localizacion">{{
-                segmento.arrival.iataCode
-              }}</strong>
-              -
-              {{ segmento.arrival.at | date : "medium" }}
-            </div>
-          </aside>
-          <div class="vuelo-segmento-detalle-info">
-            <div class="container-detalle-vuelo">
-              <p>
-                <strong class="segmento-localizacion">Vuelo:</strong>
-                {{ segmento.carrierCode }}{{ segmento.number }} -
-                {{ data.clase }}
-              </p>
-              <p>
-                <strong class="segmento-localizacion">Aerolinea:</strong>
-                {{
-                  data.viaje_salida.dictionaries.carriers[segmento.carrierCode]
-                }}
-              </p>
-              <p>
-                <strong class="segmento-localizacion">Avión:</strong>
-                {{
-                  data.viaje_salida.dictionaries.aircraft[
-                    segmento.aircraft.code
-                  ]
-                }}
-              </p>
-              <p>
-                <strong class="segmento-localizacion">Precio:</strong>
-                {{
-                  data.viaje_salida.price.base
-                    | currency : data.viaje_salida.price.currency
-                }}
-                <i style="display: block">Sin impuestos</i>
-              </p>
-            </div>
-          </div>
-        </div>
+        <app-segmento-info
+          [segmento]="segmento"
+          [clase]="data.clase"
+          [viaje]="data.viaje_vuelta"
+        ></app-segmento-info>
       </div>
     </div>
   </div>

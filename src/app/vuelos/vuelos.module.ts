@@ -14,6 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalViajeComponent } from './components/modal-viaje/modal-viaje.component';
 import { ResultadoVuelosIdaVueltaComponent } from './pages/resultado-vuelos-ida-vuelta/resultado-vuelos-ida-vuelta.component';
 import { ModalViajeIdaVueltaComponent } from './components/modal-viaje-ida-vuelta/modal-viaje-ida-vuelta.component';
+import { SegmentoInfoComponent } from './components/segmento-info/segmento-info.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ModalViajeIdaVueltaComponent } from './components/modal-viaje-ida-vuelt
     ModalViajeComponent,
     ResultadoVuelosIdaVueltaComponent,
     ModalViajeIdaVueltaComponent,
+    SegmentoInfoComponent,
   ],
   imports: [
     CommonModule,

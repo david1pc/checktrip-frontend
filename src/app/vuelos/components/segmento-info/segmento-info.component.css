@@ -1,0 +1,77 @@
+.vuelo-segmento-detalle {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 200px;
+}
+
+.vuelo-segmento-body {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.vuelo-segmento {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 1.18rem 0 0;
+  height: 100%;
+}
+
+.vuelo-segmento-desde {
+  background-color: rgb(0, 0, 0);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+}
+
+.vuelo-segmento-linea {
+  border-left: 1px solid #000;
+  flex: 1;
+}
+
+.vuelo-segmento-hasta {
+  background-color: rgb(0, 0, 0);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+}
+
+.vuelo-segmento-detalle-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.vuelo-segmento-duracion {
+  font-weight: 500;
+}
+
+.total p {
+  margin: 0;
+}
+
+.modal-footer {
+  gap: 10px;
+}
+
+.segmento-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.segmento-margin {
+  margin-top: 16px;
+}
+
+.segmento-localizacion {
+  font-weight: 500;
+}
