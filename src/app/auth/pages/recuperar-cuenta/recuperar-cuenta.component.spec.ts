@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { LoginComponent } from './login.component';
+import { RecuperarCuentaComponent } from './recuperar-cuenta.component';
 import { AuthChecktripService } from '../../services/auth-checktrip.service';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -11,21 +11,21 @@ import { SharedModule } from '../../../shared/shared.module';
 import { HttpResponse } from '@angular/common/http';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+  let component: RecuperarCuentaComponent;
+  let fixture: ComponentFixture<RecuperarCuentaComponent>;
   let authServiceMock: any;
   let authenticationServiceMock: any;
 
   beforeEach(async () => {
     authServiceMock = {
-      loginChecktrip: jest.fn(),
+      recuperacionCuenta: jest.fn(),
     };
     authenticationServiceMock = {
       login: jest.fn(),
     };
 
     await TestBed.configureTestingModule({
-      declarations: [LoginComponent],
+      declarations: [RecuperarCuentaComponent],
       imports: [RouterTestingModule, SharedModule, ReactiveFormsModule],
       providers: [
         {
@@ -41,7 +41,7 @@ describe('LoginComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(RecuperarCuentaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -50,15 +50,13 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should post loginChecktrip', () => {
+  it('should post recuperacionCuenta', () => {
+    const correo = 'davidprueba50@email.com';
+    component.formulario.controls['correo'].setValue(correo);
     const resp = new HttpResponse({
       status: 200,
     });
-    const username = 'david12';
-    const wd = '12345';
-    component.formulario.controls['username'].setValue(username);
-    component.formulario.controls['password'].setValue(wd);
-    jest.spyOn(authServiceMock, 'loginChecktrip').mockReturnValue(of(resp));
-    fixture.detectChanges();
+    jest.spyOn(authServiceMock, 'recuperacionCuenta').mockReturnValue(of(resp));
+    component.recuperarCuenta();
   });
 });

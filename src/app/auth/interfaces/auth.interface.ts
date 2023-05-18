@@ -16,7 +16,7 @@ export interface ClientRequest {
 export interface Person {
   nombres: string;
   apellidos: string;
-  fecha_nacimiento: Date;
+  fecha_nacimiento?: Date;
   username: string;
   password: string;
   correo: string;

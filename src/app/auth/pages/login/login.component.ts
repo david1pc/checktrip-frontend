@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { AuthChecktripService } from '../../services/auth-checktrip.service';
 import { ModalAuthComponent } from '../../components/modal-auth/modal-auth.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -29,37 +30,40 @@ export class LoginComponent {
   login() {
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
-      this.authenticationService.login().subscribe({
-        next: (response) => {
-          this.auth_checktrip
-            .loginChecktrip(value.username, value.password)
-            .subscribe({
-              next: (data) => {
-                this.authenticationService.guardarToken(response, data);
-                this.verModalExito(
-                  'Login',
-                  'Ha iniciado sesion correctamente',
-                  '/'
-                );
-              },
-              error: (error) => {
-                if (error.status == 426) {
-                  this.verModalExito(
-                    'Login',
-                    'Debe actualizar la contraseña',
-                    'auth/actualizacion-passwd'
-                  );
-                } else {
-                  this.verModal(
-                    'Login',
-                    'El username o contraseña es incorrecto'
-                  );
-                }
-              },
-            });
-        },
-        error: () => {},
-      });
+      const amadeusLogin = this.authenticationService.login();
+      const checktripLogin = this.auth_checktrip.loginChecktrip(
+        value.username,
+        value.password
+      );
+      let tokenAmadeus: any = '';
+      amadeusLogin
+        .pipe(
+          switchMap((data) => {
+            tokenAmadeus = data;
+            return checktripLogin;
+          })
+        )
+        .subscribe({
+          next: (resultado) => {
+            this.authenticationService.guardarToken(tokenAmadeus, resultado);
+            this.verModalExito(
+              'Login',
+              'Ha iniciado sesion correctamente',
+              '/'
+            );
+          },
+          error: (error) => {
+            if (error.status == 426) {
+              this.verModalExito(
+                'Login',
+                'Debe actualizar la contraseña',
+                'auth/actualizacion-passwd'
+              );
+            } else {
+              this.verModal('Login', 'El username o contraseña es incorrecto');
+            }
+          },
+        });
     }
   }
 

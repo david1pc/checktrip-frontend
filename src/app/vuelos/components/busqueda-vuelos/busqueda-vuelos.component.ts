@@ -37,7 +37,7 @@ export class BusquedaVuelosComponent {
       ciudadOrigen: ['', []],
       ciudadDestino: ['', []],
       fecha_salida: ['', [Validators.required]],
-      fecha_vuelta: ['', [Validators.required]],
+      fecha_vuelta: ['', []],
       cantidadAdultos: [
         1,
         [Validators.required, Validators.max(8), Validators.min(1)],
@@ -120,6 +120,9 @@ export class BusquedaVuelosComponent {
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
       const tipoVuelo = this.formulario.controls['tipoVuelo'].value;
+      if (!value.vueloDirecto) {
+        value.vueloDirecto = false;
+      }
       if (tipoVuelo == 'ida') {
         this.establecerValoresSesion();
         this.router
