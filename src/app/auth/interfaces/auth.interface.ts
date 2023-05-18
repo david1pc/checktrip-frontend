@@ -10,10 +10,10 @@ export interface LoginResponse {
 }
 
 export interface ClientRequest {
-  person: person;
+  person: Person;
 }
 
-export interface person {
+export interface Person {
   nombres: string;
   apellidos: string;
   fecha_nacimiento: Date;
