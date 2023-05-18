@@ -58,13 +58,16 @@ export class ModalElegirCiudadesComponent implements OnInit {
   buscarVuelos() {
     if (this.formulario.valid) {
       this.modal.dismiss();
-      this.router.navigate([
-        '/aeropuertos/busqueda',
-        this.data.codigo,
-        this.data.nombre,
-        this.formulario.value.codigoDestino,
-        this.formulario.value.nombreDestino,
-      ]);
+      this.router
+        .navigate([
+          '/aeropuertos/busqueda',
+          this.data.codigo,
+          this.data.nombre,
+          this.formulario.value.codigoDestino,
+          this.formulario.value.nombreDestino,
+        ])
+        .then(() => {})
+        .catch(() => {});
     }
   }
 }
