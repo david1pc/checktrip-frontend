@@ -13,9 +13,7 @@ export class ModalViajeComponent {
 
   constructor(public modal: NgbActiveModal, private router: Router) {}
 
-  guardarItinerario() {
-    // const clienteIdaViaje = this.estructurarDatos();
-  }
+  guardarItinerario() {}
 
   estructurarDatos() {
     let clienteIdaViaje: ClienteIdaViajes = {

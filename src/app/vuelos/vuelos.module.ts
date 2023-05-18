@@ -15,6 +15,7 @@ import { ModalViajeComponent } from './components/modal-viaje/modal-viaje.compon
 import { ResultadoVuelosIdaVueltaComponent } from './pages/resultado-vuelos-ida-vuelta/resultado-vuelos-ida-vuelta.component';
 import { ModalViajeIdaVueltaComponent } from './components/modal-viaje-ida-vuelta/modal-viaje-ida-vuelta.component';
 import { SegmentoInfoComponent } from './components/segmento-info/segmento-info.component';
+import { BusquedaVuelosComponent } from './components/busqueda-vuelos/busqueda-vuelos.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SegmentoInfoComponent } from './components/segmento-info/segmento-info.
     ResultadoVuelosIdaVueltaComponent,
     ModalViajeIdaVueltaComponent,
     SegmentoInfoComponent,
+    BusquedaVuelosComponent,
   ],
   imports: [
     CommonModule,

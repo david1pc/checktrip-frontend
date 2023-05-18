@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { VuelosService } from '../../services/vuelos.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Datum } from '../../interfaces/vuelos.interface';
-import { ModalAuthComponent } from 'src/app/auth/components/modal-auth/modal-auth.component';
+import { VuelosService } from '../../services/vuelos.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Datum } from '../../interfaces/vuelos.interface';
 
 @Component({
-  selector: 'app-principal',
-  templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css'],
+  selector: 'app-busqueda-vuelos',
+  templateUrl: './busqueda-vuelos.component.html',
+  styleUrls: ['./busqueda-vuelos.component.css'],
 })
-export class PrincipalComponent implements OnInit {
+export class BusquedaVuelosComponent {
   termino_origen: string = '';
   termino_destino: string = '';
   ciudades_origen: Datum[] = [];
@@ -26,51 +25,36 @@ export class PrincipalComponent implements OnInit {
   travelClass: string = '';
   tipoVuelo: string = '';
 
-  formulario: FormGroup;
-
+  @Input() formulario: FormGroup;
   busqueda_origen: string = '';
   busqueda_destino: string = '';
 
   constructor(
     private vuelosService: VuelosService,
-    private route: ActivatedRoute,
     private formBuider: FormBuilder,
-    private modalService: NgbModal,
     private router: Router
   ) {
     this.formulario = this.formBuider.group({
       ciudadOrigen: ['', []],
       ciudadDestino: ['', []],
       fecha_salida: ['', [Validators.required]],
-      fecha_vuelta: ['', []],
-      cantidadAdultos: [1, [Validators.required]],
+      fecha_vuelta: ['', [Validators.required]],
+      cantidadAdultos: [
+        1,
+        [Validators.required, Validators.max(8), Validators.min(1)],
+      ],
       cantidadInfantes: [0, []],
       tipoVuelo: ['', [Validators.required]],
       travelClass: ['', [Validators.required]],
       vueloDirecto: ['', []],
     });
   }
-  ngOnInit(): void {
-    if (!sessionStorage.getItem('username')) {
-      this.verModal(
-        'Vuelos',
-        'Debe iniciar sesion para continuar',
-        'auth/login'
-      );
-    }
-    this.formulario.controls['vueloDirecto'].setValue(true);
-  }
 
-  verModal(titulo: string, descripcion: string, navegacion: string) {
-    const modalRef = this.modalService.open(ModalAuthComponent, {
-      size: 'md',
-      backdrop: 'static',
-    });
-    modalRef.componentInstance.data = {
-      titulo: titulo,
-      descripcion: descripcion,
-      navegacion: navegacion,
-    };
+  ngOnInit(): void {
+    this.busqueda_origen = sessionStorage.getItem('busqueda_origen') ?? '';
+    this.busqueda_destino = sessionStorage.getItem('busqueda_destino') ?? '';
+    this.seleccionar_ciudad_origen(this.busqueda_origen);
+    this.seleccionar_ciudad_destino(this.busqueda_destino);
   }
 
   cambiarTipo(event: any) {
@@ -126,6 +110,11 @@ export class PrincipalComponent implements OnInit {
     });
   }
 
+  establecerValoresSesion() {
+    sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
+    sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
+  }
+
   buscarVuelo() {
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
@@ -163,10 +152,5 @@ export class PrincipalComponent implements OnInit {
           .catch(() => {});
       }
     }
-  }
-
-  establecerValoresSesion() {
-    sessionStorage.setItem('busqueda_origen', this.busqueda_origen);
-    sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
   }
 }

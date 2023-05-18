@@ -27,7 +27,7 @@ export class VuelosService {
     vueloDirecto: string
   ): Observable<any> {
     let travelClass: string = clase ? '&travelClass=' + clase : '';
-    let currency: string = sessionStorage.getItem('divisa') || 'COP';
+    let currency: string = sessionStorage.getItem('divisa') ?? 'COP';
     let parametros: string = `?originLocationCode=${codigoOrigen}&destinationLocationCode=${codigoDestino}&departureDate=${fechaSalida}&adults=${cantidadAdultos}&children=${cantidadInfantes}&nonStop=${vueloDirecto}&currencyCode=${currency}&max=250${travelClass}`;
     let urlApi: string =
       'https://test.api.amadeus.com/v2/shopping/flight-offers' + parametros;
