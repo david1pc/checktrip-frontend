@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { VuelosService } from '../../services/vuelos.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Datum } from '../../interfaces/vuelos.interface';
 
@@ -81,6 +80,7 @@ export class BusquedaVuelosComponent {
           }
         });
       },
+      error: () => {},
     });
   }
 
@@ -107,6 +107,7 @@ export class BusquedaVuelosComponent {
           }
         });
       },
+      error: () => {},
     });
   }
 

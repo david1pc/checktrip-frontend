@@ -18,8 +18,6 @@ export class CiudadInputComponent {
 
   debouncer: Subject<string> = new Subject();
 
-  constructor() {}
-
   ngOnInit() {
     this.debouncer.pipe(debounceTime(300)).subscribe((valor) => {
       this.onDebounce.emit(valor);

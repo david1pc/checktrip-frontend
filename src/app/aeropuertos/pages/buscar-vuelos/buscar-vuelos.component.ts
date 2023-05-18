@@ -6,7 +6,6 @@ import { AirportCitySearchService } from 'src/app/aeropuertos/services/airport-c
 @Component({
   selector: 'app-buscar-vuelos',
   templateUrl: './buscar-vuelos.component.html',
-  styleUrls: ['./buscar-vuelos.component.css'],
 })
 export class BuscarVuelosComponent implements OnInit {
   codigoOrigen: string = '';
@@ -75,15 +74,6 @@ export class BuscarVuelosComponent implements OnInit {
         total: item.price.grandTotal,
         itinerarios: [],
       };
-
-      /*registro.itinerarios = item.itineraries[0].segments.map((item2: any) => {
-        let registroItine: any = {
-          iataCode: item2.iataCode
-        };
-
-        return registroItine;
-      });*/
-
       return registro;
     });
   }

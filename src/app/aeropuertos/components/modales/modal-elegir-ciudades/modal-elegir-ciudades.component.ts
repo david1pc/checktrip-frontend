@@ -7,7 +7,6 @@ import { AirportCitySearchService } from 'src/app/aeropuertos/services/airport-c
 @Component({
   selector: 'app-modal-elegir-ciudades',
   templateUrl: './modal-elegir-ciudades.component.html',
-  styleUrls: ['./modal-elegir-ciudades.component.css'],
 })
 export class ModalElegirCiudadesComponent implements OnInit {
   @Input() data: any;

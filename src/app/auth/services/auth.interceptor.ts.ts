@@ -40,7 +40,11 @@ export class AuthInterceptor implements HttpInterceptor {
         if ([401].includes(err.status)) {
           this.authenticationService.logout();
         }
-        return throwError(err);
+        return throwError(() => {
+          new Error(
+            'Error al enviar la solicitud con el encabezado de Authorization'
+          );
+        });
       })
     );
   }

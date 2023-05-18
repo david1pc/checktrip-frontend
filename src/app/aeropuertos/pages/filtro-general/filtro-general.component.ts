@@ -8,7 +8,6 @@ import { ModalAuthComponent } from 'src/app/auth/components/modal-auth/modal-aut
 @Component({
   selector: 'app-filtro-general',
   templateUrl: './filtro-general.component.html',
-  styleUrls: ['./filtro-general.component.css'],
 })
 export class FiltroGeneralComponent implements OnInit {
   formulario: FormGroup;

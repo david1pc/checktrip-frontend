@@ -97,6 +97,7 @@ export class PrincipalComponent implements OnInit {
           }
         });
       },
+      error: () => {},
     });
   }
 
@@ -123,6 +124,7 @@ export class PrincipalComponent implements OnInit {
           }
         });
       },
+      error: () => {},
     });
   }
 
