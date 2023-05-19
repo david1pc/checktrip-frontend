@@ -26,7 +26,10 @@ describe('VuelosService', () => {
           multi: true,
         },
       ],
-    }).compileComponents();
+    })
+      .compileComponents()
+      .then(() => {})
+      .catch(() => {});
     vuelosService = TestBed.inject(VuelosService);
     authenticationService = TestBed.inject(AuthenticationService);
     httpMock = TestBed.inject(HttpTestingController);
