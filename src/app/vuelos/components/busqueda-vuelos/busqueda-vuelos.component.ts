@@ -85,15 +85,19 @@ export class BusquedaVuelosComponent {
   }
 
   seleccionar_ciudad_origen(ciudad: string) {
-    const iata_code = ciudad.split('(')[1].replace(')', '');
-    this.ciudadOrigen = iata_code;
-    this.busqueda_origen = ciudad;
+    if (ciudad) {
+      const iata_code = ciudad.split('(')[1].replace(')', '');
+      this.ciudadOrigen = iata_code;
+      this.busqueda_origen = ciudad;
+    }
   }
 
   seleccionar_ciudad_destino(ciudad: string) {
-    const iata_code = ciudad.split('(')[1].replace(')', '');
-    this.ciudadDestino = iata_code;
-    this.busqueda_destino = ciudad;
+    if (ciudad) {
+      const iata_code = ciudad.split('(')[1].replace(')', '');
+      this.ciudadDestino = iata_code;
+      this.busqueda_destino = ciudad;
+    }
   }
 
   buscarCiudadDestino(termino: string) {
