@@ -25,6 +25,8 @@ export class ResultadoVuelosIdaVueltaComponent {
   clase: string = '';
   vueloDirecto: string = '';
   esDirecto: string = '';
+  buscando!: boolean;
+  noHayVuelos!: boolean;
 
   viajes_salida: OfertaViaje[] = [];
   viajes_vuelta: OfertaViaje[] = [];
@@ -64,6 +66,7 @@ export class ResultadoVuelosIdaVueltaComponent {
   }
 
   obtenerDatosRuta(params: any) {
+    this.buscando = true;
     this.origen = params.get('origen') ?? '';
     this.destino = params.get('destino') ?? '';
     this.salida = params.get('salida') ?? '';
@@ -131,6 +134,12 @@ export class ResultadoVuelosIdaVueltaComponent {
           });
           this.viajes = [];
           this.asignarVuelosIdaVuelta();
+          this.buscando = false;
+          if (this.viajes.length == 0) {
+            this.noHayVuelos = true;
+          } else {
+            this.noHayVuelos = false;
+          }
         },
       });
   }

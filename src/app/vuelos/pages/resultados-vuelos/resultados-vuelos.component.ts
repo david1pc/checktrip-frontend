@@ -24,6 +24,8 @@ export class ResultadosVuelosComponent {
   clase: string = '';
   vueloDirecto: string = '';
   esDirecto: string = '';
+  buscando!: boolean;
+  noHayVuelos!: boolean;
 
   viajes: OfertaViaje[] = [];
 
@@ -62,6 +64,7 @@ export class ResultadosVuelosComponent {
 
   buscarVuelos() {
     this.route.paramMap.subscribe((params) => {
+      this.buscando = true;
       this.origen = params.get('origen') ?? '';
       this.destino = params.get('destino') ?? '';
       this.salida = params.get('salida') ?? '';
@@ -96,6 +99,12 @@ export class ResultadosVuelosComponent {
               };
               this.viajes.push({ viaje: viajeInfo });
             });
+            this.buscando = false;
+            if (this.viajes.length == 0) {
+              this.noHayVuelos = true;
+            } else {
+              this.noHayVuelos = false;
+            }
           },
         });
     });
