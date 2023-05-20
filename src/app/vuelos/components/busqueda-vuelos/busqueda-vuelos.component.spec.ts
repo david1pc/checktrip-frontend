@@ -53,10 +53,6 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    routerSpy.mockRestore();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

@@ -1,52 +1,40 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { AuthChecktripService } from '../../../../src/app/auth/services/auth-checktrip.service';
-import { AuthenticationService } from '../../../../src/app/auth/services/authentication.service';
 
-import { of } from 'rxjs';
 import { SharedModule } from '../../shared/shared.module';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AuthChecktripService', () => {
-  let authServiceMock: any;
-  let authenticationServiceMock: any;
+  let authenticationService: AuthChecktripService;
 
   beforeEach(async () => {
-    authServiceMock = {
-      recuperacionCuenta: jest.fn(),
-      restaurarPasswordCuenta: jest.fn(),
-      loginChecktrip: jest.fn(),
-      registroChecktrip: jest.fn(),
-    };
-    authenticationServiceMock = {
-      login: jest.fn(),
-    };
-
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SharedModule, ReactiveFormsModule],
-      providers: [
-        {
-          provide: AuthChecktripService,
-          useValue: authServiceMock,
-        },
-        {
-          provide: AuthenticationService,
-          useValue: authenticationServiceMock,
-        },
+      imports: [
+        RouterTestingModule,
+        SharedModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        HttpClientModule,
       ],
-    }).compileComponents();
+      providers: [AuthChecktripService],
+    })
+      .compileComponents()
+      .then(() => {})
+      .catch(() => {});
+    authenticationService = TestBed.inject(AuthChecktripService);
   });
 
   it('should post recuperacionCuenta', () => {
-    const resp = new HttpResponse({
-      status: 200,
-    });
+    let status = 200;
 
     const correo = 'davidprueba50@email.com';
-    jest.spyOn(authServiceMock, 'recuperacionCuenta').mockReturnValue(of(resp));
-    authServiceMock.recuperacionCuenta(correo);
+    authenticationService.recuperacionCuenta(correo).subscribe((resp) => {
+      expect(resp).toBe(status);
+    });
   });
 
   it('should post restaurarPasswordCuenta', () => {
@@ -54,23 +42,21 @@ describe('AuthChecktripService', () => {
     const aw = '12345';
     const aw2 = '123456';
 
-    const resp = new HttpResponse({
-      status: 200,
-    });
+    let status = 200;
 
-    jest
-      .spyOn(authServiceMock, 'restaurarPasswordCuenta')
-      .mockReturnValue(of(resp));
-    authServiceMock.restaurarPasswordCuenta(correo, aw, aw2);
+    authenticationService
+      .restaurarPasswordCuenta(correo, aw, aw2)
+      .subscribe((resp) => {
+        expect(resp).toBe(status);
+      });
   });
 
   it('Should post loginChecktrip', () => {
-    const resp = {
-      username: 'david12',
-    };
+    let status = 200;
     const username = 'david12';
     const wd = '12345';
-    jest.spyOn(authServiceMock, 'loginChecktrip').mockReturnValue(of(resp));
-    authServiceMock.loginChecktrip(username, wd);
+    authenticationService.loginChecktrip(username, wd).subscribe((resp) => {
+      expect(resp).toBe(status);
+    });
   });
 });
