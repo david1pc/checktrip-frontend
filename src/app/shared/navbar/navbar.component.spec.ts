@@ -1,13 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { NavbarComponent } from './navbar.component';
 import { AuthChecktripService } from '../../../../src/app/auth/services/auth-checktrip.service';
 import { AuthenticationService } from '../../../../src/app/auth/services/authentication.service';
-
-import { of } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 describe('NavbarComponent', () => {

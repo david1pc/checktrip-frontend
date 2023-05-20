@@ -15,7 +15,7 @@ import { MaterialModule } from '../../../../../src/app/material/material.module'
 import { ModalViajeComponent } from '../../../../../src/app/vuelos/components/modal-viaje/modal-viaje.component';
 import { of } from 'rxjs';
 import { AuthChecktripService } from '../../../../../src/app/auth/services/auth-checktrip.service';
-import { Viajes } from '../../interfaces/vuelos.interface.js';
+import { retornarDatos } from '../../../../../src/app/vuelos/pages/resultado-vuelos-ida-vuelta/resultado-vuelos-ida-vuelta.component.spec';
 
 describe('ResultadosVuelosComponent', () => {
   let component: ResultadosVuelosComponent;
@@ -101,84 +101,7 @@ describe('ResultadosVuelosComponent', () => {
   });
 
   test('deberia asignarViajesSalida', (done) => {
-    let datos: Viajes = {
-      data: [
-        {
-          itineraries: [
-            {
-              duration: 'PT5H52M',
-              segments: [
-                {
-                  departure: {
-                    iataCode: 'JFK',
-                    terminal: '4',
-                    at: new Date(),
-                  },
-                  arrival: {
-                    iataCode: 'BOG',
-                    terminal: '1',
-                    at: new Date(),
-                  },
-                  carrierCode: 'DL',
-                  number: '253',
-                  aircraft: {
-                    code: '757',
-                  },
-                  operating: {
-                    carrierCode: 'DL',
-                  },
-                  duration: 'PT5H52M',
-                  id: '4',
-                  numberOfStops: 0,
-                  blacklistedInEU: false,
-                },
-              ],
-            },
-          ],
-          numberOfBookableSeats: 3,
-          price: {
-            currency: 'COP',
-            total: '972000.00',
-            base: '759200.00',
-            fees: [
-              {
-                amount: '0.00',
-                type: 'SUPPLIER',
-              },
-              {
-                amount: '0.00',
-                type: 'TICKETING',
-              },
-            ],
-            grandTotal: '972000.00',
-          },
-        },
-      ],
-      meta: {
-        count: 2,
-      },
-      dictionaries: {
-        locations: {
-          BCN: {
-            cityCode: '5',
-            countryCode: 'CO',
-          },
-          MAD: {
-            cityCode: '6',
-            countryCode: 'CO',
-          },
-        },
-        aircraft: {
-          '320': 'BOEING',
-        },
-        carriers: {
-          IB: 'IB',
-        },
-        currencies: {
-          USD: 'USD',
-        },
-      },
-    };
+    let datos: any = retornarDatos(2);
     component.validarBusquedaVuelos();
     component.asignarViajesSalida(datos, component.viajes);
     component.validarBusquedaVuelos();
@@ -187,87 +110,7 @@ describe('ResultadosVuelosComponent', () => {
   });
 
   test('deberia abrirInfoViaje', (done) => {
-    let datos = {
-      itineraries: [
-        {
-          duration: 'PT5H52M',
-          segments: [
-            {
-              departure: {
-                iataCode: 'JFK',
-                terminal: '4',
-                at: new Date(),
-              },
-              arrival: {
-                iataCode: 'BOG',
-                terminal: '1',
-                at: new Date(),
-              },
-              carrierCode: 'DL',
-              number: '253',
-              aircraft: {
-                code: '757',
-              },
-              operating: {
-                carrierCode: 'DL',
-              },
-              duration: 'PT5H52M',
-              id: '4',
-              numberOfStops: 0,
-              blacklistedInEU: false,
-            },
-          ],
-        },
-      ],
-      numberOfBookableSeats: 3,
-      price: {
-        currency: 'COP',
-        total: '972000.00',
-        base: '759200.00',
-        fees: [
-          {
-            amount: '0.00',
-            type: 'SUPPLIER',
-          },
-          {
-            amount: '0.00',
-            type: 'TICKETING',
-          },
-        ],
-        grandTotal: '972000.00',
-      },
-      dictionaries: {
-        locations: {
-          EWR: {
-            cityCode: 'NYC',
-            countryCode: 'US',
-          },
-          BOG: {
-            cityCode: 'BOG',
-            countryCode: 'CO',
-          },
-          JFK: {
-            cityCode: 'NYC',
-            countryCode: 'US',
-          },
-        },
-        aircraft: {
-          '319': 'AIRBUS A319',
-          '757': 'BOEING 757',
-          '73G': 'BOEING 737-700',
-          '32N': 'AIRBUS A320NEO',
-        },
-        currencies: {
-          COP: 'COLOMBIAN PESO',
-        },
-        carriers: {
-          LA: 'LATAM AIRLINES GROUP',
-          AV: 'AVIANCA',
-          DL: 'DELTA AIR LINES',
-          UA: 'UNITED AIRLINES',
-        },
-      },
-    };
+    let datos: any = retornarDatos(1);
     component.abrirInfoViaje(datos);
     component.onDataChange(null);
     done();

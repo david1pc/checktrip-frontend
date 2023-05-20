@@ -5,9 +5,8 @@ import {
 } from '@angular/common/http/testing';
 import { VuelosService } from '../services/vuelos.service';
 import { AuthenticationService } from '../../auth/services/authentication.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from '../../auth/services/auth.interceptor.ts';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('VuelosService', () => {
   let vuelosService: VuelosService;
