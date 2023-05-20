@@ -90,21 +90,8 @@ export class ResultadosVuelosComponent {
         .subscribe({
           next: (resultado: Viajes) => {
             this.viajes = [];
-            resultado.data.forEach((viaje) => {
-              let viajeInfo: ViajeInfo = {
-                itineraries: viaje.itineraries,
-                numberOfBookableSeats: viaje.numberOfBookableSeats,
-                price: viaje.price,
-                dictionaries: resultado.dictionaries,
-              };
-              this.viajes.push({ viaje: viajeInfo });
-            });
-            this.buscando = false;
-            if (this.viajes.length == 0) {
-              this.noHayVuelos = true;
-            } else {
-              this.noHayVuelos = false;
-            }
+            this.asignarViajesSalida(resultado, this.viajes);
+            this.validarBusquedaVuelos();
           },
         });
     });
@@ -126,6 +113,27 @@ export class ResultadosVuelosComponent {
       opcion = true;
     }
     this.formulario.controls['vueloDirecto'].setValue(opcion);
+  }
+
+  validarBusquedaVuelos() {
+    this.buscando = false;
+    if (this.viajes.length == 0) {
+      this.noHayVuelos = true;
+    } else {
+      this.noHayVuelos = false;
+    }
+  }
+
+  asignarViajesSalida(resultado: Viajes, viajes: OfertaViaje[]) {
+    resultado.data.forEach((viaje) => {
+      let viajeInfo: ViajeInfo = {
+        itineraries: viaje.itineraries,
+        numberOfBookableSeats: viaje.numberOfBookableSeats,
+        price: viaje.price,
+        dictionaries: resultado.dictionaries,
+      };
+      viajes.push({ viaje: viajeInfo });
+    });
   }
 
   abrirInfoViaje(viaje: ViajeInfo) {

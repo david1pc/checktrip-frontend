@@ -53,17 +53,21 @@ export class LoginComponent {
             );
           },
           error: (error) => {
-            if (error.status == 426) {
-              this.verModalExito(
-                'Login',
-                'Debe actualizar la contraseña',
-                'auth/actualizacion-passwd'
-              );
-            } else {
-              this.verModal('Login', 'El username o contraseña es incorrecto');
-            }
+            this.verModalError(error);
           },
         });
+    }
+  }
+
+  verModalError(error: any) {
+    if (error.status == 426) {
+      this.verModalExito(
+        'Login',
+        'Debe actualizar la contraseña',
+        'auth/actualizacion-passwd'
+      );
+    } else {
+      this.verModal('Login', 'El username o contraseña es incorrecto');
     }
   }
 

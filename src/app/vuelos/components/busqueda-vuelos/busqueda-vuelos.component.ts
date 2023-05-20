@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { VuelosService } from '../../services/vuelos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Datum } from '../../interfaces/vuelos.interface';
+import { Busqueda, Datum } from '../../interfaces/vuelos.interface';
 
 @Component({
   selector: 'app-busqueda-vuelos',
@@ -74,13 +74,17 @@ export class BusquedaVuelosComponent {
     this.termino_origen = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_origen).subscribe({
       next: (busqueda) => {
-        busqueda.data.forEach((ciudad) => {
-          if (ciudad.iataCode) {
-            this.ciudades_origen.push(ciudad);
-          }
-        });
+        this.asignarCiudades(busqueda, this.ciudades_origen);
       },
       error: () => {},
+    });
+  }
+
+  asignarCiudades(busqueda: Busqueda, ciudades: Datum[]) {
+    busqueda.data.forEach((ciudad) => {
+      if (ciudad.iataCode) {
+        ciudades.push(ciudad);
+      }
     });
   }
 
@@ -105,11 +109,7 @@ export class BusquedaVuelosComponent {
     this.termino_destino = termino;
     this.vuelosService.buscarCiudadesVuelos(this.termino_destino).subscribe({
       next: (busqueda) => {
-        busqueda.data.forEach((ciudad) => {
-          if (ciudad.iataCode) {
-            this.ciudades_destino.push(ciudad);
-          }
-        });
+        this.asignarCiudades(busqueda, this.ciudades_destino);
       },
       error: () => {},
     });

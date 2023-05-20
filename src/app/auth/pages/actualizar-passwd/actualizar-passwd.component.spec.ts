@@ -5,12 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActualizarPasswdComponent } from './actualizar-passwd.component';
 import { AuthChecktripService } from '../../services/auth-checktrip.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { ModalAuthComponent } from '../../../../../src/app/auth/components/modal-auth/modal-auth.component';
 
 import { of } from 'rxjs';
 import { SharedModule } from '../../../shared/shared.module';
 import { HttpResponse } from '@angular/common/http';
 
-describe('LoginComponent', () => {
+describe('ActualizarPasswdComponent', () => {
   let component: ActualizarPasswdComponent;
   let fixture: ComponentFixture<ActualizarPasswdComponent>;
   let authServiceMock: any;
@@ -26,7 +27,7 @@ describe('LoginComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [ActualizarPasswdComponent],
+      declarations: [ActualizarPasswdComponent, ModalAuthComponent],
       imports: [RouterTestingModule, SharedModule, ReactiveFormsModule],
       providers: [
         {
@@ -78,5 +79,10 @@ describe('LoginComponent', () => {
       .spyOn(authServiceMock, 'restaurarPasswordCuenta')
       .mockReturnValue(of(resp));
     component.actualizar_cuenta();
+  });
+
+  test('deberia verModal', (done) => {
+    component.verModal('Error', 'Actualizar contraseña');
+    done();
   });
 });

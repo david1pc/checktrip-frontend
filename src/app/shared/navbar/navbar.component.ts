@@ -18,17 +18,21 @@ export class NavbarComponent {
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
-      if (this.router.url === '/login') {
-        this.hideNavbar = true;
-      } else {
-        this.hideNavbar = false;
-      }
+      this.verificarUrl();
     });
     if (!sessionStorage.getItem('divisa')) {
       sessionStorage.setItem('divisa', 'COP');
     }
     this.seleccion_divisa = sessionStorage.getItem('divisa') ?? 'COP';
     this.username = sessionStorage.getItem('username') ?? null;
+  }
+
+  verificarUrl() {
+    if (this.router.url === '/login') {
+      this.hideNavbar = true;
+    } else {
+      this.hideNavbar = false;
+    }
   }
 
   cambiarDivisa(divisa: string) {

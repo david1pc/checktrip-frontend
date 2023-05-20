@@ -67,20 +67,20 @@ export interface Bcn {
 }
 
 export interface Viaje {
-  type: string;
-  id: string;
-  source: string;
-  instantTicketingRequired: boolean;
-  nonHomogeneous: boolean;
-  oneWay: boolean;
-  lastTicketingDate: Date;
-  lastTicketingDateTime: Date;
+  type?: string;
+  id?: string;
+  source?: string;
+  instantTicketingRequired?: boolean;
+  nonHomogeneous?: boolean;
+  oneWay?: boolean;
+  lastTicketingDate?: Date;
+  lastTicketingDateTime?: Date;
   numberOfBookableSeats: number;
   itineraries: Itinerary[];
   price: ViajePrice;
-  pricingOptions: PricingOptions;
-  validatingAirlineCodes: string[];
-  travelerPricings: TravelerPricing[];
+  pricingOptions?: PricingOptions;
+  validatingAirlineCodes?: string[];
+  travelerPricings?: TravelerPricing[];
 }
 
 export interface Itinerary {

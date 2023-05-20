@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { VuelosService } from '../../../../../src/app/vuelos/services/vuelos.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { Router } from '@angular/router';
+import { Busqueda, Datum } from '../../interfaces/vuelos.interface';
 
 describe('LoginComponent', () => {
   let component: BusquedaVuelosComponent;
@@ -95,6 +96,66 @@ describe('LoginComponent', () => {
 
     expect(component.formulario.controls['ciudadOrigen'].value).toBe('AXM');
     expect(routerSpy).toHaveBeenCalled();
+    done();
+  });
+
+  test('deberia establecerValoresSesion', (done) => {
+    component.establecerValoresSesion();
+    done();
+  });
+
+  test('deberia asignarCiudades', (done) => {
+    let datos: Datum[] = [
+      {
+        type: 'location',
+        subType: 'city',
+        name: 'Cartago',
+        iataCode: 'CRC',
+        address: {
+          countryCode: 'CO',
+          stateCode: 'CO-ZZZ',
+        },
+        geoCode: {
+          latitude: 4.74639,
+          longitude: -75.91167,
+        },
+      },
+      {
+        type: 'location',
+        subType: 'city',
+        name: 'Cartagena',
+        iataCode: 'CTG',
+        address: {
+          countryCode: 'CO',
+          stateCode: 'CO-ZZZ',
+        },
+        geoCode: {
+          latitude: 10.39972,
+          longitude: -75.51444,
+        },
+      },
+      {
+        type: 'location',
+        subType: 'city',
+        name: 'Cartagena',
+        iataCode: 'XUF',
+        address: {
+          countryCode: 'ES',
+          stateCode: 'ES-ZZZ',
+        },
+        geoCode: {
+          latitude: 37.60512,
+          longitude: -0.98623,
+        },
+      },
+    ];
+    let busqueda: Busqueda = {
+      data: datos,
+      meta: {
+        count: 5,
+      },
+    };
+    component.asignarCiudades(busqueda, datos);
     done();
   });
 });

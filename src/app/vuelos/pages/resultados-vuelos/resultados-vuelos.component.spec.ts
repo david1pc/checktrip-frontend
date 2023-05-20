@@ -12,37 +12,40 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../../../../src/app/auth/services/authentication.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../../../../src/app/material/material.module';
+import { ModalViajeComponent } from '../../../../../src/app/vuelos/components/modal-viaje/modal-viaje.component';
 import { of } from 'rxjs';
+import { AuthChecktripService } from '../../../../../src/app/auth/services/auth-checktrip.service';
+import { Viajes } from '../../interfaces/vuelos.interface.js';
 
 describe('ResultadosVuelosComponent', () => {
   let component: ResultadosVuelosComponent;
   let fixture: ComponentFixture<ResultadosVuelosComponent>;
+  let authenticationServiceMock: any;
+  let authServiceMock: any;
+  let vuelosServiceMock: any;
 
-  test('debe de tener el valores iniciales del vuelo', async () => {
-    let origen_prueba: string = 'BOG';
-    const mockActivatedRoute = {
-      paramMap: of({
-        get(param: string) {
-          const params: any = {
-            origen: origen_prueba,
-            destino: 'CTG',
-            salida: '2023-05-24',
-            adultos: '1',
-            infantes: '0',
-            clase: 'ECONOMY',
-            vueloDirecto: 'true',
-          };
-
-          return params[param];
-        },
-      }),
+  beforeEach(async () => {
+    authenticationServiceMock = {
+      login: jest.fn(),
+      guardarToken: jest.fn(),
     };
+
+    authServiceMock = {
+      loginChecktrip: jest.fn(),
+    };
+
+    vuelosServiceMock = {
+      flightOffers: jest.fn(),
+    };
+
+    const mockActivatedRoute = establecerParametros();
 
     await TestBed.configureTestingModule({
       declarations: [
         ResultadosVuelosComponent,
         BusquedaVuelosComponent,
         CiudadInputComponent,
+        ModalViajeComponent,
         CiudadDestinoInputComponent,
       ],
       imports: [
@@ -60,15 +63,234 @@ describe('ResultadosVuelosComponent', () => {
           useClass: AuthInterceptor,
           multi: true,
         },
+        {
+          provide: AuthenticationService,
+          useValue: authenticationServiceMock,
+        },
+        {
+          provide: AuthChecktripService,
+          useValue: authServiceMock,
+        },
+        {
+          provide: VuelosService,
+          useValue: vuelosServiceMock,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         AuthenticationService,
         VuelosService,
       ],
-    }).compileComponents();
+    })
+      .compileComponents()
+      .then(() => {})
+      .catch(() => {});
 
     fixture = TestBed.createComponent(ResultadosVuelosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
 
-    expect(component.origen).toBe(origen_prueba);
+  test('verificar parametros', (done) => {
+    expect(component.origen).toBe('BOG');
+    expect(component.destino).toBe('CTG');
+    expect(component.salida).toBe('2023-05-24');
+    expect(component.adultos).toBe('1');
+    expect(component.infantes).toBe('0');
+    expect(component.clase).toBe('ECONOMY');
+    expect(component.vueloDirecto).toBe('true');
+    done();
+  });
+
+  test('deberia asignarViajesSalida', (done) => {
+    let datos: Viajes = {
+      data: [
+        {
+          itineraries: [
+            {
+              duration: 'PT5H52M',
+              segments: [
+                {
+                  departure: {
+                    iataCode: 'JFK',
+                    terminal: '4',
+                    at: new Date(),
+                  },
+                  arrival: {
+                    iataCode: 'BOG',
+                    terminal: '1',
+                    at: new Date(),
+                  },
+                  carrierCode: 'DL',
+                  number: '253',
+                  aircraft: {
+                    code: '757',
+                  },
+                  operating: {
+                    carrierCode: 'DL',
+                  },
+                  duration: 'PT5H52M',
+                  id: '4',
+                  numberOfStops: 0,
+                  blacklistedInEU: false,
+                },
+              ],
+            },
+          ],
+          numberOfBookableSeats: 3,
+          price: {
+            currency: 'COP',
+            total: '972000.00',
+            base: '759200.00',
+            fees: [
+              {
+                amount: '0.00',
+                type: 'SUPPLIER',
+              },
+              {
+                amount: '0.00',
+                type: 'TICKETING',
+              },
+            ],
+            grandTotal: '972000.00',
+          },
+        },
+      ],
+      meta: {
+        count: 2,
+      },
+      dictionaries: {
+        locations: {
+          BCN: {
+            cityCode: '5',
+            countryCode: 'CO',
+          },
+          MAD: {
+            cityCode: '6',
+            countryCode: 'CO',
+          },
+        },
+        aircraft: {
+          '320': 'BOEING',
+        },
+        carriers: {
+          IB: 'IB',
+        },
+        currencies: {
+          USD: 'USD',
+        },
+      },
+    };
+    component.validarBusquedaVuelos();
+    component.asignarViajesSalida(datos, component.viajes);
+    component.validarBusquedaVuelos();
+    expect(component.viajes.length).toBeGreaterThan(0);
+    done();
+  });
+
+  test('deberia abrirInfoViaje', (done) => {
+    let datos = {
+      itineraries: [
+        {
+          duration: 'PT5H52M',
+          segments: [
+            {
+              departure: {
+                iataCode: 'JFK',
+                terminal: '4',
+                at: new Date(),
+              },
+              arrival: {
+                iataCode: 'BOG',
+                terminal: '1',
+                at: new Date(),
+              },
+              carrierCode: 'DL',
+              number: '253',
+              aircraft: {
+                code: '757',
+              },
+              operating: {
+                carrierCode: 'DL',
+              },
+              duration: 'PT5H52M',
+              id: '4',
+              numberOfStops: 0,
+              blacklistedInEU: false,
+            },
+          ],
+        },
+      ],
+      numberOfBookableSeats: 3,
+      price: {
+        currency: 'COP',
+        total: '972000.00',
+        base: '759200.00',
+        fees: [
+          {
+            amount: '0.00',
+            type: 'SUPPLIER',
+          },
+          {
+            amount: '0.00',
+            type: 'TICKETING',
+          },
+        ],
+        grandTotal: '972000.00',
+      },
+      dictionaries: {
+        locations: {
+          EWR: {
+            cityCode: 'NYC',
+            countryCode: 'US',
+          },
+          BOG: {
+            cityCode: 'BOG',
+            countryCode: 'CO',
+          },
+          JFK: {
+            cityCode: 'NYC',
+            countryCode: 'US',
+          },
+        },
+        aircraft: {
+          '319': 'AIRBUS A319',
+          '757': 'BOEING 757',
+          '73G': 'BOEING 737-700',
+          '32N': 'AIRBUS A320NEO',
+        },
+        currencies: {
+          COP: 'COLOMBIAN PESO',
+        },
+        carriers: {
+          LA: 'LATAM AIRLINES GROUP',
+          AV: 'AVIANCA',
+          DL: 'DELTA AIR LINES',
+          UA: 'UNITED AIRLINES',
+        },
+      },
+    };
+    component.abrirInfoViaje(datos);
+    component.onDataChange(null);
+    done();
   });
 });
+
+function establecerParametros() {
+  const mockActivatedRoute = {
+    paramMap: of({
+      get(param: string) {
+        const params: any = {
+          origen: 'BOG',
+          destino: 'CTG',
+          salida: '2023-05-24',
+          adultos: '1',
+          infantes: '0',
+          clase: 'ECONOMY',
+          vueloDirecto: 'true',
+        };
+
+        return params[param];
+      },
+    }),
+  };
+  return mockActivatedRoute;
+}

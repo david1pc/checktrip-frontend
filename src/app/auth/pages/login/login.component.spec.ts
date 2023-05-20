@@ -5,16 +5,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 import { AuthChecktripService } from '../../services/auth-checktrip.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClientModule,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from '../../../../../src/app/auth/services/auth.interceptor.ts';
 
 import { SharedModule } from '../../../shared/shared.module';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
+import { ModalAuthComponent } from '../../../../../src/app/auth/components/modal-auth/modal-auth.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -33,7 +29,7 @@ describe('LoginComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [LoginComponent],
+      declarations: [LoginComponent, ModalAuthComponent],
       imports: [
         RouterTestingModule,
         SharedModule,
@@ -88,6 +84,12 @@ describe('LoginComponent', () => {
     component.login();
     expect(authenticationServiceMock.login).toHaveBeenCalled();
     expect(authServiceMock.loginChecktrip).toHaveBeenCalled();
+    done();
+  });
+
+  test('deberia verModalError', (done) => {
+    component.verModalError({ status: 426 });
+    component.verModalError({ status: 400 });
     done();
   });
 });

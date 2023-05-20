@@ -95,18 +95,22 @@ export class ResultadoVuelosIdaVueltaComponent {
       .subscribe({
         next: (resultado: Viajes) => {
           this.viajes_salida = [];
-          resultado.data.forEach((viaje) => {
-            let viajeInfo: ViajeInfo = {
-              itineraries: viaje.itineraries,
-              numberOfBookableSeats: viaje.numberOfBookableSeats,
-              price: viaje.price,
-              dictionaries: resultado.dictionaries,
-            };
-            this.viajes_salida.push({ viaje: viajeInfo });
-          });
+          this.asignarViajesSalidaVuelta(resultado, this.viajes_salida);
           this.buscarVuelosVuelta();
         },
       });
+  }
+
+  asignarViajesSalidaVuelta(resultado: Viajes, viajes: OfertaViaje[]) {
+    resultado.data.forEach((viaje) => {
+      let viajeInfo: ViajeInfo = {
+        itineraries: viaje.itineraries,
+        numberOfBookableSeats: viaje.numberOfBookableSeats,
+        price: viaje.price,
+        dictionaries: resultado.dictionaries,
+      };
+      viajes.push({ viaje: viajeInfo });
+    });
   }
 
   buscarVuelosVuelta() {
@@ -123,25 +127,20 @@ export class ResultadoVuelosIdaVueltaComponent {
       .subscribe({
         next: (resultado: Viajes) => {
           this.viajes_vuelta = [];
-          resultado.data.forEach((viaje) => {
-            let viajeInfo: ViajeInfo = {
-              itineraries: viaje.itineraries,
-              numberOfBookableSeats: viaje.numberOfBookableSeats,
-              price: viaje.price,
-              dictionaries: resultado.dictionaries,
-            };
-            this.viajes_vuelta.push({ viaje: viajeInfo });
-          });
-          this.viajes = [];
+          this.asignarViajesSalidaVuelta(resultado, this.viajes_vuelta);
           this.asignarVuelosIdaVuelta();
-          this.buscando = false;
-          if (this.viajes.length == 0) {
-            this.noHayVuelos = true;
-          } else {
-            this.noHayVuelos = false;
-          }
+          this.validarBusquedaVuelos();
         },
       });
+  }
+
+  validarBusquedaVuelos() {
+    this.buscando = false;
+    if (this.viajes.length == 0) {
+      this.noHayVuelos = true;
+    } else {
+      this.noHayVuelos = false;
+    }
   }
 
   buscarOfertasIdaVuelta() {
@@ -149,6 +148,7 @@ export class ResultadoVuelosIdaVueltaComponent {
   }
 
   asignarVuelosIdaVuelta() {
+    this.viajes = [];
     let count = 0;
     while (count <= this.viajes_salida.length) {
       if (this.viajes_salida[count] && this.viajes_vuelta[count]) {
