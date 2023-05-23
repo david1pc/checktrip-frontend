@@ -1,0 +1,162 @@
+
+  .container-viajes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 96px;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  .card {
+    width: 1000px;
+    cursor: pointer;
+    margin-bottom: 2px;
+  }
+  
+  .paginador {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  
+  .viajes-info {
+    display: grid;
+    grid-template-columns: 5fr 0.1fr 1fr;
+    align-items: center;
+    gap: 50px;
+    margin: 0px;
+    padding: 16px;
+    width: 100%;
+  }
+  
+  .viajes-detalles {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  .contenedor-detalles {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 0px;
+    padding: 0px;
+    gap: 30px;
+  }
+  
+  .viajes-tiempo {
+    display: flex;
+    height: 27px;
+  }
+  
+  .viajes-separador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+    width: 50%;
+  }
+  
+  .viajes-separador-linea {
+    border-top: 1px solid gray;
+    width: 100%;
+  }
+  
+  .viaje-precio {
+    width: 100%;
+  }
+  
+  .precio {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0;
+  }
+  
+  .division-viaje {
+    border-left: 1px solid gray;
+    height: 100%;
+  }
+  
+  .division-viaje-precio {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .descripcion-viaje {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .descripcion-viaje h2 {
+    font-size: 24px;
+  }
+  
+  /*
+    Busqueda de vuelos
+  
+  */
+  
+  .bg-cp {
+    background-color: #d3d6db;
+  }
+  
+  .fs-7 {
+    font-size: 15px;
+  }
+  
+  .fs-8 {
+    font-size: 13px;
+  }
+  
+  .inp-width {
+    width: 240px;
+  }
+  
+  .inp-height {
+    height: 52px;
+  }
+  
+  .busqueda-ida-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .centrar-busqueda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card-body {
+    flex-direction: column;
+  }
+  

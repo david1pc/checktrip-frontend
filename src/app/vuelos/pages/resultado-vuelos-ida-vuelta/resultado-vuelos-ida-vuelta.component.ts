@@ -130,8 +130,20 @@ export class ResultadoVuelosIdaVueltaComponent {
           this.asignarViajesSalidaVuelta(resultado, this.viajes_vuelta);
           this.asignarVuelosIdaVuelta();
           this.validarBusquedaVuelos();
+          this.guardarHistorial();
         },
       });
+  }
+
+  guardarHistorial():void{
+    let json:string = JSON.stringify(this.viajes);
+    let dtoHistorial: any = {id: null, soloIda: false, fechaSalida: this.salida, fechaVuelta: this.vuelta,
+      origen: this.origen, destino: this.destino, clase: this.clase, objeto: json};
+      
+    this.vuelosService.guardarHistorial(dtoHistorial).subscribe(
+      (data) => {
+      }
+    );
   }
 
   validarBusquedaVuelos() {

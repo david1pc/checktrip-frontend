@@ -36,10 +36,6 @@ export class AuthenticationService {
     return sessionStorage.getItem('token');
   }
 
-  getTokenChecktrip() {
-    return sessionStorage.getItem('token_checktrip');
-  }
-
   logout() {
     sessionStorage.clear();
     window.location.href = '/';

@@ -161,4 +161,10 @@ export class BusquedaVuelosComponent {
       }
     }
   }
+
+  abrirHistorial():void{
+    this.router.navigate(['vuelos/historial'])
+    .then(() => {})
+    .catch(() => {});
+  }
 }

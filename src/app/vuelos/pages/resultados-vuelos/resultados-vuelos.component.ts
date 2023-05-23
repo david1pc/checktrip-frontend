@@ -62,6 +62,17 @@ export class ResultadosVuelosComponent {
     this.buscarVuelos();
   }
 
+  guardarHistorial():void{
+    let json:string = JSON.stringify(this.viajes);
+    let dtoHistorial: any = {id: null, soloIda: false, fechaSalida: this.salida, fechaVuelta: null,
+      origen: this.origen, destino: this.destino, clase: this.clase, objeto: json};
+      
+    this.vuelosService.guardarHistorial(dtoHistorial).subscribe(
+      (data) => {
+      }
+    );
+  }
+
   buscarVuelos() {
     this.route.paramMap.subscribe((params) => {
       this.buscando = true;
@@ -92,6 +103,7 @@ export class ResultadosVuelosComponent {
             this.viajes = [];
             this.asignarViajesSalida(resultado, this.viajes);
             this.validarBusquedaVuelos();
+            this.guardarHistorial();
           },
         });
     });

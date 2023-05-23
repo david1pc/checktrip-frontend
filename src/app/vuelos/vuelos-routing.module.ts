@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { ResultadosVuelosComponent } from './pages/resultados-vuelos/resultados-vuelos.component';
 import { ResultadoVuelosIdaVueltaComponent } from './pages/resultado-vuelos-ida-vuelta/resultado-vuelos-ida-vuelta.component';
+import { HistorialVuelosComponent } from './pages/historial-vuelos/historial-vuelos.component';
+import { DetalleHistorialComponent } from './pages/detalle-historial/detalle-historial.component';
 
 const routes: Routes = [
   {
@@ -20,6 +22,14 @@ const routes: Routes = [
         path: 'ofertas/:origen/:destino/:salida/:vuelta/:adultos/:infantes/:clase/:vueloDirecto',
         component: ResultadoVuelosIdaVueltaComponent,
       },
+      {
+        path: 'historial',
+        component: HistorialVuelosComponent,
+      },
+      {
+        path: 'detalle_historial_vuelos/:id',
+        component: DetalleHistorialComponent,
+      }
     ],
   },
 ];

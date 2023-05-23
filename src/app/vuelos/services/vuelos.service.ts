@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Busqueda, Viajes } from '../interfaces/vuelos.interface';
-import { Observable } from 'rxjs';
-import { ClienteIdaViajes } from '../interfaces/vuelos-bd.interface';
-import { environment } from '../../../../src/environments/environment';
+import { Observable, of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -36,10 +35,16 @@ export class VuelosService {
     return this.http.get<Viajes>(urlApi);
   }
 
-  guardarItinerarioIda(itinerarioIda: ClienteIdaViajes) {
-    return this.http.post<string>(
-      environment.url_api_checktrip + 'itinerary/ida',
-      itinerarioIda
+  filtrarHistorial(fechaSalida: string, fechaVuelta:string, username:string): Observable<any> {
+    let parametros: string = `?fechaInicio=${fechaSalida}&fechaFin=${fechaVuelta}&username=${username}`;
+    let urlApi: string = environment.url_api_checktrip +'historial/filter'+ parametros;
+    return this.http.get<any>(urlApi);
+  }
+
+  guardarHistorial(dtoHistorial:any): Observable<any>{
+    return this.http.post<any>(
+      environment.url_api_checktrip + 'historial/guardar',
+      dtoHistorial
     );
   }
 }

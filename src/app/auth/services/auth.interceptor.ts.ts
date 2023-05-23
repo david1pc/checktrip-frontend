@@ -25,11 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     // Obtiene el token de autenticación de tu fuente preferida
-    let token = this.authenticationService.getToken();
-
-    if (request.url.includes('api/itinerary')) {
-      token = this.authenticationService.getTokenChecktrip();
-    }
+    const token = this.authenticationService.getToken();
 
     // Clona la solicitud para agregar el encabezado Authorization con el token
     const authReq = request.clone({

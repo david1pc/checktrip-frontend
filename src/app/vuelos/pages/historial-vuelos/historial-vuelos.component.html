@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+<div class="container text-center py-3">
+  <h1>Historial vuelos</h1>
+</div>
+
+<div class="container">
+  <form [formGroup]="formulario" novalidate class="bordeGeneral">
+    <div class="row">
+      <div class="col-4">
+        <label for="txtFechaSalida"
+          >Fecha inicio <span class="mensajeError">*</span></label
+        >
+        <input
+          id="txtFechaSalida"
+          type="date"
+          class="form-control"
+          value=""
+          formControlName="fechaSalida"
+        />
+        <span
+          class="mensajeError"
+          *ngIf="formulario.controls['fechaSalida'].hasError('required')"
+        >
+          Este campo es obligatorio.
+        </span>
+      </div>
+
+      <div class="col-4">
+        <label for="txtFechaVuelta"
+          >Fecha fin <span class="mensajeError">*</span></label
+        >
+        <input
+          id="txtFechaVuelta"
+          type="date"
+          class="form-control"
+          value=""
+          formControlName="fechaVuelta"
+        />
+      </div>
+
+
+      <div class="col-3 mt-4">
+        <button
+          class="btn btn-primary"
+          (click)="consultar()"
+          [disabled]="formulario.invalid"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="vuelos.length === 0 && yaBusco">
+    <span class="mensajeError"> No hay datos </span>
+  </div>
+
+  <div class="row bordeGeneral m-1 mt-4" *ngIf="vuelos.length > 0">
+    <div class="container text-left py-3">
+      <h1>Lista vuelos</h1>
+    </div>
+
+    <table class="table table-hover">
+      <caption>
+        Historial
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Origen</th>
+          <th scope="col">Destino</th>
+          <th scope="col">Fecha salida</th>
+          <th scope="col">Fecha vuelta</th>
+          <th scope="col">Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of vuelos; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.origen }}</td>
+          <td>{{ item.destino }}</td>
+          <td>{{ item.fechaSalida }}</td>
+          <td>{{ item.fechaVuelta }}</td>
+          <td><button class="btn btn-success" (click)="detalleHistorial(item.id)">Ver</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
