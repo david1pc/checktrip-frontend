@@ -17,7 +17,7 @@ export interface Viaje {
   id?: number;
   numberOfBookableSeats: number;
   price: Price;
-  itineraries: Itinerary[];
+  itinerary: Itinerary;
   dictionaries: Dictionaries;
 }
 

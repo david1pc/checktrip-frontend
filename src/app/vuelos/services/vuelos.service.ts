@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Busqueda, Viajes } from '../interfaces/vuelos.interface';
 import { Observable } from 'rxjs';
+import { ClienteIdaViajes } from '../interfaces/vuelos-bd.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +34,12 @@ export class VuelosService {
     let urlApi: string =
       'https://test.api.amadeus.com/v2/shopping/flight-offers' + parametros;
     return this.http.get<Viajes>(urlApi);
+  }
+
+  guardarItinerarioIda(itinerarioIda: ClienteIdaViajes) {
+    return this.http.post<string>(
+      environment.url_api_checktrip + 'itinerary/ida',
+      itinerarioIda
+    );
   }
 }

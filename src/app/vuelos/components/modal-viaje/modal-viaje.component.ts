@@ -1,7 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClienteIdaViajes } from '../../interfaces/vuelos-bd.interface';
+import {
+  Aircraft,
+  Carriers,
+  ClienteIdaViajes,
+} from '../../interfaces/vuelos-bd.interface';
+import { VuelosService } from '../../services/vuelos.service';
 
 @Component({
   selector: 'app-modal-viaje',
@@ -11,10 +16,41 @@ import { ClienteIdaViajes } from '../../interfaces/vuelos-bd.interface';
 export class ModalViajeComponent {
   @Input() data: any;
 
-  constructor(public modal: NgbActiveModal, private router: Router) {}
+  constructor(
+    public modal: NgbActiveModal,
+    private router: Router,
+    private vuelosService: VuelosService
+  ) {}
 
   guardarItinerario() {
-    console.log('En construcción...');
+    let viaje = this.estructurarDatos();
+
+    let aircrafts: Aircraft[] = [];
+    let carriers: Carriers[] = [];
+    for (let segmento of this.data.viaje.itineraries[0].segments) {
+      let aircraft: Aircraft = {
+        id: segmento.aircraft.code,
+        name: this.data.viaje.dictionaries.aircraft[segmento.aircraft.code],
+      };
+      aircrafts.push(aircraft);
+    }
+
+    for (let segmento of this.data.viaje.itineraries[0].segments) {
+      let carrier: Carriers = {
+        id: segmento.carrierCode,
+        name: this.data.viaje.dictionaries.carriers[segmento.carrierCode],
+      };
+      carriers.push(carrier);
+    }
+
+    viaje.viaje.dictionaries.aircraft = aircrafts;
+    viaje.viaje.dictionaries.carriers = carriers;
+
+    this.vuelosService.guardarItinerarioIda(viaje).subscribe({
+      next: (respuesta) => {
+        console.log(respuesta);
+      },
+    });
   }
 
   estructurarDatos() {
@@ -25,7 +61,7 @@ export class ModalViajeComponent {
           aircraft: this.data.viaje.dictionaries.aircraft,
           carriers: this.data.viaje.dictionaries.carriers,
         },
-        itineraries: this.data.viaje.itineraries,
+        itinerary: this.data.viaje.itineraries[0],
         numberOfBookableSeats: this.data.viaje.numberOfBookableSeats,
         price: {
           base: this.data.viaje.price.base,
