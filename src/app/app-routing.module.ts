@@ -24,6 +24,11 @@ const routes: Routes = [
         (m) => m.AeropuertosModule
       ),
   },
+  {
+    path: 'usuarios',
+    loadChildren: () =>
+      import('./usuarios/usuarios.module').then((m) => m.UsuariosModule),
+  },
   { path: '**', component: PaginaNoEncontradaComponent },
 ];
 

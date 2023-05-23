@@ -7,6 +7,7 @@ import {
   ClienteIdaViajes,
 } from '../../interfaces/vuelos-bd.interface';
 import { VuelosService } from '../../services/vuelos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-viaje',
@@ -47,10 +48,21 @@ export class ModalViajeComponent {
     viaje.viaje.dictionaries.carriers = carriers;
 
     this.vuelosService.guardarItinerarioIda(viaje).subscribe({
-      next: (respuesta) => {
-        console.log(respuesta);
+      next: (respuesta: any) => {
+        this.verModal(respuesta.descripcion);
+      },
+      error: (error) => {
+        this.verModal('Ha ocurrido un error guardando el itinerario.');
       },
     });
+  }
+
+  verModal(mensaje: string) {
+    Swal.fire('Guardar itinerario', mensaje, 'success');
+  }
+
+  verModalError(mensaje: string) {
+    Swal.fire('Guardar itinerario', mensaje, 'error');
   }
 
   estructurarDatos() {
@@ -61,15 +73,16 @@ export class ModalViajeComponent {
           aircraft: this.data.viaje.dictionaries.aircraft,
           carriers: this.data.viaje.dictionaries.carriers,
         },
-        itinerary: this.data.viaje.itineraries[0],
+        itineraryDTO: this.data.viaje.itineraries[0],
         numberOfBookableSeats: this.data.viaje.numberOfBookableSeats,
         price: {
-          base: this.data.viaje.price.base,
+          base: Number(this.data.viaje.price.base),
           currency: this.data.viaje.price.currency,
-          grandTotal: this.data.viaje.price.grandTotal,
-          total: this.data.viaje.price.total,
+          grandTotal: Number(this.data.viaje.price.grandTotal),
+          total: Number(this.data.viaje.price.total),
         },
       },
+      fechaCreacion: new Date(),
     };
     return clienteIdaViaje;
   }
