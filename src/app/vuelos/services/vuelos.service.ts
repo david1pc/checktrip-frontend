@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Busqueda, Viajes } from '../interfaces/vuelos.interface';
 import { Observable } from 'rxjs';

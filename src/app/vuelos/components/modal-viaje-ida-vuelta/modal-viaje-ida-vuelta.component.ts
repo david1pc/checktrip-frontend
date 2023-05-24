@@ -84,13 +84,15 @@ export class ModalViajeIdaVueltaComponent {
         this.verModal(respuesta.descripcion);
       },
       error: (error) => {
-        this.verModal('Ha ocurrido un error guardando el itinerario.');
+        this.verModalError('Ha ocurrido un error guardando el itinerario.');
       },
     });
   }
 
   verModal(mensaje: string) {
-    Swal.fire('Guardar itinerario', mensaje, 'success');
+    Swal.fire('Guardar itinerario', mensaje, 'success')
+      .then(() => {})
+      .catch(() => {});
   }
 
   verModalError(mensaje: string) {

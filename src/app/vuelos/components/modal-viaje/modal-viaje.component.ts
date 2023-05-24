@@ -53,7 +53,7 @@ export class ModalViajeComponent {
         this.verModal(respuesta.descripcion);
       },
       error: (error) => {
-        this.verModal('Ha ocurrido un error guardando el itinerario.');
+        this.verModalError('Ha ocurrido un error guardando el itinerario.');
       },
     });
   }

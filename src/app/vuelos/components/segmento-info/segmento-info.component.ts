@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Carriers } from '../../interfaces/vuelos-bd.interface';
 
 @Component({
   selector: 'app-segmento-info',
