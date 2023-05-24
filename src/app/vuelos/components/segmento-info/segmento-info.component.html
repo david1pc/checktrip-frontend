@@ -34,11 +34,17 @@
       </p>
       <p>
         <strong class="segmento-localizacion">Aerolinea:</strong>
-        {{ viaje.dictionaries.carriers[segmento.carrierCode] }}
+        {{
+          viaje.dictionaries.carriers[segmento.carrierCode] ||
+            obtenerAerolinea(segmento)
+        }}
       </p>
       <p>
         <strong class="segmento-localizacion">Avión:</strong>
-        {{ viaje.dictionaries.aircraft[segmento.aircraft.code] }}
+        {{
+          viaje.dictionaries.aircraft[segmento.aircraft.code] ||
+            obtenerAvion(segmento)
+        }}
       </p>
       <p>
         <strong class="segmento-localizacion">Precio:</strong>

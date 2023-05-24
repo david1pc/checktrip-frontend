@@ -5,6 +5,7 @@ import {
   Aircraft,
   Carriers,
   ClienteIdaViajes,
+  Segment,
 } from '../../interfaces/vuelos-bd.interface';
 import { VuelosService } from '../../services/vuelos.service';
 import Swal from 'sweetalert2';
@@ -66,6 +67,7 @@ export class ModalViajeComponent {
   }
 
   estructurarDatos() {
+    let segmentos: Segment[] = this.data.viaje.itineraries[0].segments;
     let clienteIdaViaje: ClienteIdaViajes = {
       username: sessionStorage.getItem('username') ?? '',
       viaje: {
@@ -73,7 +75,10 @@ export class ModalViajeComponent {
           aircraft: this.data.viaje.dictionaries.aircraft,
           carriers: this.data.viaje.dictionaries.carriers,
         },
-        itineraryDTO: this.data.viaje.itineraries[0],
+        itineraryDTO: {
+          duration: this.data.viaje.itineraries[0].duration,
+          segments: segmentos,
+        },
         numberOfBookableSeats: this.data.viaje.numberOfBookableSeats,
         price: {
           base: Number(this.data.viaje.price.base),
@@ -81,6 +86,7 @@ export class ModalViajeComponent {
           grandTotal: Number(this.data.viaje.price.grandTotal),
           total: Number(this.data.viaje.price.total),
         },
+        travelClass: this.data.clase,
       },
       fechaCreacion: new Date(),
     };

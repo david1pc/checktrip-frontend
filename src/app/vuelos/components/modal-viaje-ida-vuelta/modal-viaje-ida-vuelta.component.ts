@@ -111,6 +111,7 @@ export class ModalViajeIdaVueltaComponent {
         grandTotal: Number(this.data.viaje_salida.price.grandTotal),
         total: Number(this.data.viaje_salida.price.total),
       },
+      travelClass: this.data.clase,
     };
     let viajeVuelta: Viaje = {
       dictionaries: {
@@ -125,6 +126,7 @@ export class ModalViajeIdaVueltaComponent {
         grandTotal: Number(this.data.viaje_vuelta.price.grandTotal),
         total: Number(this.data.viaje_vuelta.price.total),
       },
+      travelClass: this.data.clase,
     };
 
     let clienteIdaVueltaViaje: ClienteIdaVueltaViajes = {
