@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AirportCitySearchService } from '.../../../src/app/aeropuertos/services/airport-city-search.service';
+import { AirportCitySearchService } from '../../../../../src/app/aeropuertos/services/airport-city-search.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalElegirCiudadesComponent } from '../../components/modales/modal-elegir-ciudades/modal-elegir-ciudades.component';
 import { ModalAuthComponent } from '../../../../../src/app/auth/components/modal-auth/modal-auth.component';
