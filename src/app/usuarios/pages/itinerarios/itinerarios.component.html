@@ -1,99 +1,130 @@
 <app-navbar></app-navbar>
-<div class="container-descripcion-busqueda" *ngIf="noHayVuelos || buscando">
-  <div class="descripcion-viaje" style="text-align: left" *ngIf="buscando">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="descripcion-viaje" style="text-align: left" *ngIf="noHayVuelos">
-    <h2>No hay itinerarios guardados</h2>
-  </div>
-</div>
-<div class="container-viajes-all" *ngIf="data.viajesIda.length > 0">
-  <div class="container-viajes">
-    <div
-      class="descripcion-viaje"
-      style="text-align: left"
-      *ngIf="!noHayVuelos && !buscando"
-    >
-      <mat-icon>flight_takeoff</mat-icon>
-      <h2>Itinerarios ida</h2>
+<div class="global">
+  <div class="container-descripcion-busqueda" *ngIf="noHayVuelos || buscando">
+    <div class="descripcion-viaje" style="text-align: left" *ngIf="buscando">
+      <mat-spinner></mat-spinner>
     </div>
-    <div>
+    <div class="descripcion-viaje" style="text-align: left" *ngIf="noHayVuelos">
+      <h2>No hay itinerarios guardados</h2>
+    </div>
+  </div>
+  <div class="container-viajes-all" *ngIf="data.viajesIda.length > 0">
+    <div class="container-viajes">
       <div
-        *ngFor="
-          let clienteViaje of data.viajesIda
-            | paginate
-              : {
-                  itemsPerPage: tableSize,
-                  currentPage: page,
-                  totalItems: count
-                }
-        "
-        class="container"
+        class="descripcion-viaje column-flex"
+        style="text-align: left"
+        *ngIf="!noHayVuelos && !buscando"
       >
-        <div class="container-cards">
-          <div class="card" (click)="abrirInfoViajeIda(clienteViaje.viaje)">
-            <div class="card-body d-flex">
-              <div class="viajes-info">
-                <div class="viajes-detalles">
-                  <div class="viajes-detalles-info">
-                    <div class="contenedor-detalles">
-                      <div class="viajes-tiempo-izquierda">
-                        <strong class="hora">{{
-                          clienteViaje.viaje.itineraryDTO.segments[0].departure
-                            .at | date : "shortTime"
-                        }}</strong>
-                        <div class="localizacion">
-                          {{
-                            clienteViaje.viaje.itineraryDTO.segments[0]
-                              .departure.iataCode
-                          }}
+        <button type="button" class="btn btn-primary" (click)="exportarPDF()">
+          Exportar...
+        </button>
+        <hr style="width: 100px" />
+        <div class="tituloida">
+          <mat-icon>flight_takeoff</mat-icon>
+          <h2>Itinerarios ida</h2>
+        </div>
+      </div>
+      <div>
+        <div
+          *ngFor="
+            let clienteViaje of data.viajesIda
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+          class="container"
+        >
+          <div class="container text-center">
+            <div class="row">
+              <div class="col-8">
+                <div class="container-cards">
+                  <div
+                    class="card"
+                    id="card{{ i }}"
+                    (click)="abrirInfoViajeIda(clienteViaje.viaje)"
+                  >
+                    <div class="card-body d-flex">
+                      <div class="viajes-info">
+                        <div class="viajes-detalles">
+                          <div class="viajes-detalles-info">
+                            <div class="contenedor-detalles">
+                              <div class="viajes-tiempo-izquierda">
+                                <strong class="hora">{{
+                                  clienteViaje.viaje.itineraryDTO.segments[0]
+                                    .departure.at | date : "shortTime"
+                                }}</strong>
+                                <div class="localizacion">
+                                  {{
+                                    clienteViaje.viaje.itineraryDTO.segments[0]
+                                      .departure.iataCode
+                                  }}
+                                </div>
+                              </div>
+                              <div class="viajes-separador">
+                                <div class="viajes-separador-duracion">
+                                  {{ clienteViaje.viaje.itineraryDTO.duration }}
+                                </div>
+                                <div
+                                  class="viajes-separador-linea"
+                                  style="width: 100%; position: relative"
+                                ></div>
+                                <div class="viajes-separador-segmento">
+                                  {{
+                                    clienteViaje.viaje.itineraryDTO.segments
+                                      .length > 1
+                                      ? clienteViaje.viaje.itineraryDTO.segments
+                                          .length + " Paradas"
+                                      : "Directo"
+                                  }}
+                                </div>
+                              </div>
+                              <div class="viajes-tiempo-derecha">
+                                <strong class="hora">{{
+                                  clienteViaje.viaje.itineraryDTO.segments[0]
+                                    .arrival.at | date : "shortTime"
+                                }}</strong>
+                                <div class="localizacion">
+                                  {{
+                                    clienteViaje.viaje.itineraryDTO.segments[
+                                      clienteViaje.viaje.itineraryDTO.segments
+                                        .length - 1
+                                    ].arrival.iataCode
+                                  }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="viajes-separador">
-                        <div class="viajes-separador-duracion">
-                          {{ clienteViaje.viaje.itineraryDTO.duration }}
+                        <div class="division-viaje-precio">
+                          <div class="division-viaje"></div>
                         </div>
-                        <div
-                          class="viajes-separador-linea"
-                          style="width: 100%; position: relative"
-                        ></div>
-                        <div class="viajes-separador-segmento">
-                          {{
-                            clienteViaje.viaje.itineraryDTO.segments.length > 1
-                              ? clienteViaje.viaje.itineraryDTO.segments
-                                  .length + " Paradas"
-                              : "Directo"
-                          }}
-                        </div>
-                      </div>
-                      <div class="viajes-tiempo-derecha">
-                        <strong class="hora">{{
-                          clienteViaje.viaje.itineraryDTO.segments[0].arrival.at
-                            | date : "shortTime"
-                        }}</strong>
-                        <div class="localizacion">
-                          {{
-                            clienteViaje.viaje.itineraryDTO.segments[
-                              clienteViaje.viaje.itineraryDTO.segments.length -
-                                1
-                            ].arrival.iataCode
-                          }}
+                        <div class="viaje-precio">
+                          <p class="precio">
+                            {{
+                              clienteViaje.viaje.price.total
+                                | currency : clienteViaje.viaje.price.currency
+                            }}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="division-viaje-precio">
-                  <div class="division-viaje"></div>
-                </div>
-                <div class="viaje-precio">
-                  <p class="precio">
-                    {{
-                      clienteViaje.viaje.price.total
-                        | currency : clienteViaje.viaje.price.currency
-                    }}
-                  </p>
-                </div>
+              </div>
+              <div
+                class="col-4 d-flex align-items-center justify-content-center"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  (click)="cambiarSeleccion(i)"
+                  value=""
+                  id="flexCheckDefault"
+                />
               </div>
             </div>
           </div>
@@ -101,176 +132,200 @@
       </div>
     </div>
   </div>
-</div>
-<div class="container-viajes-all" *ngIf="data.viajesVuelta.length > 0">
-  <div class="container-viajes">
-    <div
-      class="descripcion-viaje"
-      style="text-align: left"
-      *ngIf="!noHayVuelos && !buscando"
-    >
-      <mat-icon>flight_takeoff</mat-icon>
-      <h2>Itinerarios ida y vuelta</h2>
-    </div>
-    <div>
+  <div class="container-viajes-all" *ngIf="data.viajesVuelta.length > 0">
+    <div class="container-viajes">
       <div
-        *ngFor="
-          let clienteViaje of data.viajesVuelta
-            | paginate
-              : {
-                  itemsPerPage: tableSize,
-                  currentPage: page,
-                  totalItems: count
-                }
-        "
-        class="container"
+        class="descripcion-viaje"
+        style="text-align: left"
+        *ngIf="!noHayVuelos && !buscando"
       >
-        <div class="container-cards">
-          <div
-            class="card"
-            (click)="
-              abrirInfoViaje(clienteViaje.viajeIda, clienteViaje.viajeVuelta)
-            "
-          >
-            <div class="card-body d-flex">
-              <div class="viajes-info">
-                <div class="viajes-detalles">
-                  <div class="viajes-detalles-info">
-                    <div class="contenedor-detalles">
-                      <div class="viajes-tiempo-izquierda">
-                        <strong class="hora">{{
-                          clienteViaje.viajeIda.itineraryDTO.segments[0]
-                            .departure.at | date : "shortTime"
-                        }}</strong>
-                        <div class="localizacion">
-                          {{
-                            clienteViaje.viajeIda.itineraryDTO.segments[0]
-                              .departure.iataCode
-                          }}
+        <mat-icon>flight_takeoff</mat-icon>
+        <h2>Itinerarios ida y vuelta</h2>
+      </div>
+      <div>
+        <div
+          *ngFor="
+            let clienteViaje of data.viajesVuelta
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+          class="container"
+        >
+          <div class="row">
+            <div class="col-8">
+              <div class="container-cards">
+                <div
+                  class="card"
+                  id="card{{ i + data.viajesIda.length }}"
+                  (click)="
+                    abrirInfoViaje(
+                      clienteViaje.viajeIda,
+                      clienteViaje.viajeVuelta
+                    )
+                  "
+                >
+                  <div class="card-body d-flex">
+                    <div class="viajes-info">
+                      <div class="viajes-detalles">
+                        <div class="viajes-detalles-info">
+                          <div class="contenedor-detalles">
+                            <div class="viajes-tiempo-izquierda">
+                              <strong class="hora">{{
+                                clienteViaje.viajeIda.itineraryDTO.segments[0]
+                                  .departure.at | date : "shortTime"
+                              }}</strong>
+                              <div class="localizacion">
+                                {{
+                                  clienteViaje.viajeIda.itineraryDTO.segments[0]
+                                    .departure.iataCode
+                                }}
+                              </div>
+                            </div>
+                            <div class="viajes-separador">
+                              <div class="viajes-separador-duracion">
+                                {{
+                                  clienteViaje.viajeIda.itineraryDTO.duration
+                                }}
+                              </div>
+                              <div
+                                class="viajes-separador-linea"
+                                style="width: 100%; position: relative"
+                              ></div>
+                              <div class="viajes-separador-segmento">
+                                {{
+                                  clienteViaje.viajeIda.itineraryDTO.segments
+                                    .length > 1
+                                    ? clienteViaje.viajeIda.itineraryDTO
+                                        .segments.length + " Paradas"
+                                    : "Directo"
+                                }}
+                              </div>
+                            </div>
+                            <div class="viajes-tiempo-derecha">
+                              <strong class="hora">{{
+                                clienteViaje.viajeIda.itineraryDTO.segments[0]
+                                  .arrival.at | date : "shortTime"
+                              }}</strong>
+                              <div class="localizacion">
+                                {{
+                                  clienteViaje.viajeIda.itineraryDTO.segments[
+                                    clienteViaje.viajeIda.itineraryDTO.segments
+                                      .length - 1
+                                  ].arrival.iataCode
+                                }}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div class="viajes-separador">
-                        <div class="viajes-separador-duracion">
-                          {{ clienteViaje.viajeIda.itineraryDTO.duration }}
-                        </div>
-                        <div
-                          class="viajes-separador-linea"
-                          style="width: 100%; position: relative"
-                        ></div>
-                        <div class="viajes-separador-segmento">
+                      <div class="division-viaje-precio">
+                        <div class="division-viaje"></div>
+                      </div>
+                      <div class="viaje-precio">
+                        <p class="precio">
                           {{
-                            clienteViaje.viajeIda.itineraryDTO.segments.length >
-                            1
-                              ? clienteViaje.viajeIda.itineraryDTO.segments
-                                  .length + " Paradas"
-                              : "Directo"
+                            clienteViaje.viajeIda.price.total
+                              | currency : clienteViaje.viajeIda.price.currency
                           }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="viajes-info">
+                      <div class="viajes-detalles">
+                        <div class="viajes-detalles-info">
+                          <div class="contenedor-detalles">
+                            <div class="viajes-tiempo-izquierda">
+                              <strong class="hora">{{
+                                clienteViaje.viajeVuelta.itineraryDTO
+                                  .segments[0].departure.at | date : "shortTime"
+                              }}</strong>
+                              <div class="localizacion">
+                                {{
+                                  clienteViaje.viajeVuelta.itineraryDTO
+                                    .segments[0].departure.iataCode
+                                }}
+                              </div>
+                            </div>
+                            <div class="viajes-separador">
+                              <div class="viajes-separador-duracion">
+                                {{
+                                  clienteViaje.viajeVuelta.itineraryDTO.duration
+                                }}
+                              </div>
+                              <div
+                                class="viajes-separador-linea"
+                                style="width: 100%; position: relative"
+                              ></div>
+                              <div class="viajes-separador-segmento">
+                                {{
+                                  clienteViaje.viajeVuelta.itineraryDTO.segments
+                                    .length > 1
+                                    ? clienteViaje.viajeVuelta.itineraryDTO
+                                        .segments.length + " Paradas"
+                                    : "Directo"
+                                }}
+                              </div>
+                            </div>
+                            <div class="viajes-tiempo-derecha">
+                              <strong class="hora">{{
+                                clienteViaje.viajeVuelta.itineraryDTO
+                                  .segments[0].arrival.at | date : "shortTime"
+                              }}</strong>
+                              <div class="localizacion">
+                                {{
+                                  clienteViaje.viajeVuelta.itineraryDTO
+                                    .segments[
+                                    clienteViaje.viajeVuelta.itineraryDTO
+                                      .segments.length - 1
+                                  ].arrival.iataCode
+                                }}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div class="viajes-tiempo-derecha">
-                        <strong class="hora">{{
-                          clienteViaje.viajeIda.itineraryDTO.segments[0].arrival
-                            .at | date : "shortTime"
-                        }}</strong>
-                        <div class="localizacion">
+                      <div class="division-viaje-precio">
+                        <div class="division-viaje"></div>
+                      </div>
+                      <div class="viaje-precio">
+                        <p class="precio">
                           {{
-                            clienteViaje.viajeIda.itineraryDTO.segments[
-                              clienteViaje.viajeIda.itineraryDTO.segments
-                                .length - 1
-                            ].arrival.iataCode
+                            clienteViaje.viajeVuelta.price.total
+                              | currency
+                                : clienteViaje.viajeVuelta.price.currency
                           }}
-                        </div>
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="division-viaje-precio">
-                  <div class="division-viaje"></div>
-                </div>
-                <div class="viaje-precio">
-                  <p class="precio">
-                    {{
-                      clienteViaje.viajeIda.price.total
-                        | currency : clienteViaje.viajeIda.price.currency
-                    }}
-                  </p>
-                </div>
               </div>
-              <div class="viajes-info">
-                <div class="viajes-detalles">
-                  <div class="viajes-detalles-info">
-                    <div class="contenedor-detalles">
-                      <div class="viajes-tiempo-izquierda">
-                        <strong class="hora">{{
-                          clienteViaje.viajeVuelta.itineraryDTO.segments[0]
-                            .departure.at | date : "shortTime"
-                        }}</strong>
-                        <div class="localizacion">
-                          {{
-                            clienteViaje.viajeVuelta.itineraryDTO.segments[0]
-                              .departure.iataCode
-                          }}
-                        </div>
-                      </div>
-                      <div class="viajes-separador">
-                        <div class="viajes-separador-duracion">
-                          {{ clienteViaje.viajeVuelta.itineraryDTO.duration }}
-                        </div>
-                        <div
-                          class="viajes-separador-linea"
-                          style="width: 100%; position: relative"
-                        ></div>
-                        <div class="viajes-separador-segmento">
-                          {{
-                            clienteViaje.viajeVuelta.itineraryDTO.segments
-                              .length > 1
-                              ? clienteViaje.viajeVuelta.itineraryDTO.segments
-                                  .length + " Paradas"
-                              : "Directo"
-                          }}
-                        </div>
-                      </div>
-                      <div class="viajes-tiempo-derecha">
-                        <strong class="hora">{{
-                          clienteViaje.viajeVuelta.itineraryDTO.segments[0]
-                            .arrival.at | date : "shortTime"
-                        }}</strong>
-                        <div class="localizacion">
-                          {{
-                            clienteViaje.viajeVuelta.itineraryDTO.segments[
-                              clienteViaje.viajeVuelta.itineraryDTO.segments
-                                .length - 1
-                            ].arrival.iataCode
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="division-viaje-precio">
-                  <div class="division-viaje"></div>
-                </div>
-                <div class="viaje-precio">
-                  <p class="precio">
-                    {{
-                      clienteViaje.viajeVuelta.price.total
-                        | currency : clienteViaje.viajeVuelta.price.currency
-                    }}
-                  </p>
-                </div>
-              </div>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                (click)="cambiarSeleccion(i + data.viajesIda.length)"
+                value=""
+                id="flexCheckDefault"
+              />
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="paginador" *ngIf="!buscando && !noHayVuelos">
-      <pagination-controls
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-        (pageChange)="onDataChange($event)"
-      >
-      </pagination-controls>
+      <div class="paginador" *ngIf="!buscando && !noHayVuelos">
+        <pagination-controls
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          (pageChange)="onDataChange($event)"
+        >
+        </pagination-controls>
+      </div>
     </div>
   </div>
 </div>

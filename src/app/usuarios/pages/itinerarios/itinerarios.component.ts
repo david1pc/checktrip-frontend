@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import { UsuariosService } from '../../../../../src/app/usuarios/services/usuarios.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalViajeIdaVueltaComponent } from '../../../../../src/app/vuelos/components/modal-viaje-ida-vuelta/modal-viaje-ida-vuelta.component';
@@ -141,5 +143,61 @@ export class ItinerariosComponent {
 
   onDataChange(event: any) {
     this.page = event;
+  }
+
+  cambiarSeleccion(event: any) {
+    let element = document.getElementById('card' + event);
+    let elementClass = element!.classList;
+    let firstClass = elementClass[1]; // Accede a la primera clase del elemento
+    if (firstClass === 'div-seleccionado') {
+      elementClass.remove('div-seleccionado');
+      elementClass.add('div-no-seleccionado');
+    } else {
+      elementClass.remove('div-no-seleccionado');
+      elementClass.add('div-seleccionado');
+    }
+  }
+
+  exportarPDF() {
+    const DATA: any = document.getElementsByClassName('div-seleccionado');
+    const doc = new jsPDF('landscape', 'pt', 'a4');
+    const options = {
+      background: '#ECDCD7',
+      scale: 3,
+    };
+    let nombre = `${new Date().toISOString()}_Report.pdf`;
+    let col: any;
+    for (let data of DATA) {
+      const element = html2canvas(data, options).then((canvas) => {
+        const img = canvas.toDataURL('image/PNG');
+
+        // Añadir imagen Canvas a PDF
+        const bufferX = 15;
+        const bufferY = 15;
+        const imgProps = (doc as any).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(
+          img,
+          'PNG',
+          bufferX,
+          bufferY,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
+
+        return doc;
+      });
+
+      element.then((docResult) => {
+        docResult.addPage(nombre);
+      });
+      col = element;
+    }
+    col.then((docResult: any) => {
+      docResult.save(nombre);
+    });
   }
 }
