@@ -162,3 +162,12 @@
 .container-descripcion-busqueda {
   margin-top: 96px;
 }
+
+.form-check-input[type=checkbox] {
+  border-radius: 0.25em;
+
+}
+
+.form-check-input[type="checkbox"] {
+  transform: scale(1.5);
+}
