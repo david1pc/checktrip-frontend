@@ -59,11 +59,15 @@ export class ModalViajeComponent {
   }
 
   verModal(mensaje: string) {
-    Swal.fire('Guardar itinerario', mensaje, 'success');
+    Swal.fire('Guardar itinerario', mensaje, 'success')
+      .then(() => {})
+      .catch(() => {});
   }
 
   verModalError(mensaje: string) {
-    Swal.fire('Guardar itinerario', mensaje, 'error');
+    Swal.fire('Guardar itinerario', mensaje, 'error')
+      .then(() => {})
+      .catch(() => {});
   }
 
   estructurarDatos() {

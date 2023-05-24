@@ -96,7 +96,9 @@ export class ModalViajeIdaVueltaComponent {
   }
 
   verModalError(mensaje: string) {
-    Swal.fire('Guardar itinerario', mensaje, 'error');
+    Swal.fire('Guardar itinerario', mensaje, 'error')
+      .then(() => {})
+      .catch(() => {});
   }
 
   estructurarDatos() {
