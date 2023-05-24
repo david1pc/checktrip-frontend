@@ -155,6 +155,15 @@
   align-items: center;
 }
 
+.column-flex {
+  flex-direction: column !important;
+}
+
+.tituloida {
+  display: flex;
+  gap: 8px;
+}
+
 .card-body {
   flex-direction: column;
 }
@@ -163,9 +172,8 @@
   margin-top: 96px;
 }
 
-.form-check-input[type=checkbox] {
+.form-check-input[type="checkbox"] {
   border-radius: 0.25em;
-
 }
 
 .form-check-input[type="checkbox"] {

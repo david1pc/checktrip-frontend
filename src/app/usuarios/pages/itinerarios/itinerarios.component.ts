@@ -33,7 +33,7 @@ export class ItinerariosComponent {
   constructor(
     private usuariosService: UsuariosService,
     private modalService: NgbModal
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.buscarItinerarios();
@@ -48,7 +48,6 @@ export class ItinerariosComponent {
         this.validarBusquedaVuelos();
       },
     });
-
   }
 
   abrirInfoViajeIda(viaje: Viaje) {
@@ -150,16 +149,30 @@ export class ItinerariosComponent {
     this.page = event;
   }
 
-  exportarPDF(idCard: string) {
-    const DATA: any = document.getElementById(idCard);
+  cambiarSeleccion(event: any) {
+    let element = document.getElementById('card' + event);
+    let elementClass = element!.classList;
+    let firstClass = elementClass[1]; // Accede a la primera clase del elemento
+    if (firstClass === 'div-seleccionado') {
+      elementClass.remove('div-seleccionado');
+      elementClass.add('div-no-seleccionado');
+    } else {
+      elementClass.remove('div-no-seleccionado');
+      elementClass.add('div-seleccionado');
+    }
+  }
+
+  exportarPDF() {
+    const DATA: any = document.getElementsByClassName('div-seleccionado');
     const doc = new jsPDF('landscape', 'pt', 'a4');
     const options = {
       background: '#ECDCD7',
-      scale: 3
+      scale: 3,
     };
     let nombre = `${new Date().toISOString()}_Report.pdf`;
-
-      html2canvas(DATA, options).then((canvas) => {
+    let col: any;
+    for (let data of DATA) {
+      const element = html2canvas(data, options).then((canvas) => {
         const img = canvas.toDataURL('image/PNG');
 
         // Añadir imagen Canvas a PDF
@@ -168,11 +181,27 @@ export class ItinerariosComponent {
         const imgProps = (doc as any).getImageProperties(img);
         const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+        doc.addImage(
+          img,
+          'PNG',
+          bufferX,
+          bufferY,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
 
         return doc;
-      }).then((docResult) => {
-        docResult.save(nombre);
       });
+
+      element.then((docResult) => {
+        docResult.addPage(nombre);
+      });
+      col = element;
+    }
+    col.then((docResult: any) => {
+      docResult.save(nombre);
+    });
   }
 }
