@@ -1,3 +1,8 @@
+export interface ClienteViajes {
+  viajesIda: ClienteIdaViajes[];
+  viajesVuelta: ClienteIdaVueltaViajes[];
+}
+
 export interface ClienteIdaVueltaViajes {
   username: string;
   viajeIda: Viaje;
@@ -14,6 +19,7 @@ export interface ClienteIdaViajes {
 export interface Viaje {
   numberOfBookableSeats: number;
   price: Price;
+  travelClass: string;
   itineraryDTO: ItineraryDTO;
   dictionaries: Dictionaries;
 }
@@ -29,7 +35,6 @@ export interface Segment {
   carrierCode: string;
   number: string;
   aircraft: SegmentAircraft;
-  operating: Operating;
   duration: string;
   id: string;
   numberOfStops: number;

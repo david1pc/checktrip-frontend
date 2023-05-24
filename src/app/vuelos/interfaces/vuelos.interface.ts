@@ -94,7 +94,7 @@ export interface Segment {
   carrierCode: string;
   number: string;
   aircraft: SegmentAircraft;
-  operating: Operating;
+  operating?: Operating;
   duration: string;
   id: string;
   numberOfStops: number;
