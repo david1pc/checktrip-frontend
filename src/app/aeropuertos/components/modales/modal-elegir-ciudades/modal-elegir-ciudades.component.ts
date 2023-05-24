@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AirportCitySearchService } from 'src/app/aeropuertos/services/airport-city-search.service';
+import { AirportCitySearchService } from '../../../../../../src/app/aeropuertos/services/airport-city-search.service';
 
 @Component({
   selector: 'app-modal-elegir-ciudades',

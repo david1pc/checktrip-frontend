@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AirportCitySearchService } from 'src/app/aeropuertos/services/airport-city-search.service';
+import { AirportCitySearchService } from '../../../../../src/app/aeropuertos/services/airport-city-search.service';
 
 @Component({
   selector: 'app-buscar-vuelos',

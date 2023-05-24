@@ -58,12 +58,6 @@ export class ItinerariosComponent {
       backdrop: 'static',
     });
 
-    console.log(
-      viaje.dictionaries.carriers.filter(
-        (carrier) => carrier.id == viaje.itineraryDTO.segments[0].carrierCode
-      )
-    );
-
     let viaje_2: ViajeInfo = {
       itineraries: [viaje.itineraryDTO],
       numberOfBookableSeats: viaje.numberOfBookableSeats,
@@ -84,6 +78,7 @@ export class ItinerariosComponent {
         viaje.itineraryDTO.segments[viaje.itineraryDTO.segments.length - 1]
           .arrival.iataCode,
       clase: viaje.travelClass,
+      esItinerario: true,
     };
   }
 
@@ -131,6 +126,7 @@ export class ItinerariosComponent {
       clase: viaje_salida.travelClass,
       total:
         Number(viaje_salida.price.total) + Number(viaje_vuelta.price.total),
+      esItinerario: true,
     };
   }
 

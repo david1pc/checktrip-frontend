@@ -52,6 +52,7 @@
     type="button"
     class="btn btn-primary border-0"
     (click)="guardarItinerario()"
+    *ngIf="!data.esItinerario"
   >
     Guardar itinerario
   </button>
