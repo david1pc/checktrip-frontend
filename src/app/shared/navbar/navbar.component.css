@@ -24,6 +24,12 @@ li {
   cursor: pointer;
 }
 
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .user-info {
   display: flex;
   justify-self: end;

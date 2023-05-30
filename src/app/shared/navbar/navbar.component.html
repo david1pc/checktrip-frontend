@@ -48,16 +48,37 @@
               routerLinkActive="active"
             >
               <li>
-                <a class="dropdown-item" (click)="cambiarDivisa('COP')">COP</a>
+                <a
+                  class="dropdown-item"
+                  (click)="cambiarDivisa('COP')"
+                  (click)="recargarPagina()"
+                  >COP</a
+                >
               </li>
               <li>
-                <a class="dropdown-item" (click)="cambiarDivisa('USD')">USD</a>
+                <a
+                  class="dropdown-item"
+                  (click)="cambiarDivisa('USD')"
+                  (click)="recargarPagina()"
+                  >USD</a
+                >
               </li>
               <li>
-                <a class="dropdown-item" (click)="cambiarDivisa('EUR')">EUR</a>
+                <a
+                  class="dropdown-item"
+                  (click)="cambiarDivisa('EUR')"
+                  (click)="recargarPagina()"
+                  >EUR</a
+                >
               </li>
             </ul>
           </li>
+          <div class="timer" *ngIf="username">
+            <div *ngIf="countdownValue > 0">
+              {{ formatTime(countdownValue) }}
+            </div>
+            <div *ngIf="countdownValue === 0">¡Tiempo finalizado!</div>
+          </div>
           <li class="nav-item dropdown last-item" *ngIf="username">
             <a
               class="nav-link dropdown-toggle"

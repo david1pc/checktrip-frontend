@@ -62,6 +62,15 @@
           formControlName="fecha_salida"
           class="form-control inp-height"
         />
+        <span
+          class="form-text text-danger"
+          *ngIf="
+            fechaEsValida('fecha_salida') &&
+            formulario.controls['fecha_salida'].value
+          "
+        >
+          Los fecha no puede ser menor a la fecha actual
+        </span>
       </div>
       <div *ngIf="validarTipoVuelo()">
         <label for="" class="fw-bold fs-8">Vuelta</label>
@@ -70,6 +79,15 @@
           formControlName="fecha_vuelta"
           class="form-control inp-height"
         />
+        <span
+          class="form-text text-danger"
+          *ngIf="
+            fechaEsValida('fecha_vuelta') &&
+            formulario.controls['fecha_vuelta'].value
+          "
+        >
+          La fecha de salida no puede ser mayor a la fecha de vuelta.
+        </span>
       </div>
       <div>
         <label for="" class="fw-bold fs-8">Pasajeros</label>
@@ -97,8 +115,15 @@
                   placeholder="1"
                   min="1"
                   max="8"
+                  step="1"
                   formControlName="cantidadAdultos"
                 />
+                <span
+                  class="form-text text-danger"
+                  *ngIf="cantidadEsValida('cantidadAdultos')"
+                >
+                  Los cantidad debe ser un entero positivo
+                </span>
               </div>
               <div class="mb-3 d-flex align-items-center">
                 <label for="formChild" class="me-md-3">Niños</label>
@@ -111,6 +136,12 @@
                   max="8"
                   formControlName="cantidadInfantes"
                 />
+                <span
+                  class="form-text text-danger"
+                  *ngIf="cantidadEsValida('cantidadInfantes')"
+                >
+                  Los cantidad debe ser un entero positivo
+                </span>
               </div>
               <div class="mb-3 d-flex align-items-center">
                 <label for="select-class" class="me-md-3">Clase</label>

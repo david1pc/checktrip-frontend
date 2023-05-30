@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, catchError, finalize, throwError } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -41,11 +42,29 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       finalize(() => {}),
       catchError((err) => {
-        if ([401].includes(err.status)) {
-          this.authenticationService.logout();
+        console.log(err);
+        if ([401, 0].includes(err.status)) {
+          this.verModalError('Su sesión ha finalizado');
         }
         return throwError(() => {});
       })
     );
+  }
+
+  verModalError(mensaje: string) {
+    Swal.fire({
+      title: 'Sesion expirada',
+      text: mensaje,
+      icon: 'info',
+      didOpen: () => {
+        setInterval(() => {
+          this.authenticationService.logout();
+        }, 4000);
+      },
+    })
+      .then(() => {
+        this.authenticationService.logout();
+      })
+      .catch(() => {});
   }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { VuelosService } from '../../services/vuelos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Busqueda, Datum } from '../../interfaces/vuelos.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-busqueda-vuelos',
@@ -54,6 +55,37 @@ export class BusquedaVuelosComponent {
     this.busqueda_destino = sessionStorage.getItem('busqueda_destino') ?? '';
     this.seleccionar_ciudad_origen(this.busqueda_origen);
     this.seleccionar_ciudad_destino(this.busqueda_destino);
+  }
+
+  cantidadEsValida(campo: string) {
+    return (
+      !Number.isInteger(this.formulario.controls[campo].value) ||
+      this.formulario.controls[campo].value < 0
+    );
+  }
+
+  fechaEsValida(campo: string) {
+    const currentDate = new Date();
+    const fecha = new Date(this.formulario.controls[campo].value);
+    let currentDateDays =
+      currentDate.getFullYear() * 365 +
+      currentDate.getMonth() * 30 +
+      currentDate.getDate() -
+      1;
+    let fechaDays =
+      fecha.getFullYear() * 365 + fecha.getMonth() * 30 + fecha.getDate();
+    return fechaDays < currentDateDays;
+  }
+
+  fechasSonValidas() {
+    if (this.formulario.controls['tipoVuelo'].value == 'idavuelta') {
+      return (
+        this.formulario.controls['fecha_salida'].value >
+        this.formulario.controls['fecha_vuelta'].value
+      );
+    } else {
+      return false;
+    }
   }
 
   cambiarTipo(event: any) {
@@ -120,6 +152,16 @@ export class BusquedaVuelosComponent {
     sessionStorage.setItem('busqueda_destino', this.busqueda_destino);
   }
 
+  verModalWarning(mensaje: string) {
+    Swal.fire({
+      title: 'Busqueda de vuelo',
+      text: mensaje,
+      icon: 'warning',
+    })
+      .then(() => {})
+      .catch(() => {});
+  }
+
   buscarVuelo() {
     if (this.formulario.valid) {
       let value: any = this.formulario.value;
@@ -159,6 +201,8 @@ export class BusquedaVuelosComponent {
           .then(() => {})
           .catch(() => {});
       }
+    } else {
+      this.verModalWarning('Por favor, diligencie todos los campos');
     }
   }
 }

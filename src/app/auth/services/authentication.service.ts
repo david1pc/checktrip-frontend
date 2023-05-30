@@ -30,6 +30,7 @@ export class AuthenticationService {
     sessionStorage.setItem('token', token_amaedus.access_token);
     sessionStorage.setItem('token_checktrip', token_checktrip.token);
     sessionStorage.setItem('username', token_checktrip.username);
+    sessionStorage.setItem('expires_in', token_checktrip.expirationTime);
   }
 
   getToken() {
